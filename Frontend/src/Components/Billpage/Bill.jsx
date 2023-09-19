@@ -189,7 +189,7 @@ const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
             });
             navigate('/table')
         }else{
-            toast.error("invoice No added ")
+            toast.error("invoice Not added ")
         }
         // Add your logic to save the data or perform other actions
 
@@ -224,7 +224,8 @@ const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
                                 <p>GSTIN/UIN: 32CNEPN1375G1Z6</p>
                             </div>
                             <div className="date-input mt-3 mt-md-0">
-                                <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span  className="fw-bold"> Date:</span>   <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
+                              <span  className="fw-bold"> Due Date:</span> <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
                                 <b> Invoice NO:{invoiceNumber ? invoiceNumber : 'B2C01'}</b>
                             </div>
                         </div>

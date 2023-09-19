@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,Suspense } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import Company from './Pages/Company';
 import Service from './Pages/Service';
@@ -88,6 +88,7 @@ if (hasTokenExpired) {
 
   return (
     <>
+    <Suspense>
       < BrowserRouter>
         <Routes>
           <Route
@@ -134,6 +135,7 @@ if (hasTokenExpired) {
           <Route path="*" element={<Notfound />} />
         </Routes>
       </ BrowserRouter>
+      </Suspense>
     </>
   );
 }

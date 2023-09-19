@@ -5,9 +5,6 @@ export default {
     LoginUser: async (req, res) => {
         try {
             const user = await User.findOne({ email: req.body.email }).exec();
-            console.log(user);
-            console.log(req.body);
-            console.log(user.passsword);
             if (user) {
                 let validaPassword;
                 if (req.body.password === user.passsword) { // Corrected field name
@@ -15,8 +12,6 @@ export default {
                 } else {
                     validaPassword = false;
                 }
-        
-
                 if (!validaPassword) {
                     throw new Error("Invalid password !");
                 } else {
@@ -40,9 +35,7 @@ export default {
     changepassword: async (req, res) => {
         try {
             const {newPassword, email } = req.body;
-            console.log(email,newPassword);
             const user = await User.findOne({ email: email }).exec();
-            console.log(user);
             if (!user) {
                 return res.json({ success: false, message: 'User not found' });
             }

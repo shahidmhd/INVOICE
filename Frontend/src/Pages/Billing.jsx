@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import Bill from '../Components/Billpage/Bill'
-import Sidebar from '../Components/Sidebar/Sidebar'
+// import Bill from '../Components/Billpage/Bill'
+// import Sidebar from '../Components/Sidebar/Sidebar'
 import { getallcompanies, getnotdeletedallcompanies } from '../apicalls/Company';
 import { getallServices } from '../apicalls/Service';
 import { getallinvoices } from '../apicalls/Invoice';
@@ -8,7 +8,8 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setLogout } from '../Redux/Authslice';
-
+const Bill = React.lazy(() => import('../Components/Billpage/Bill'))
+const Sidebar = React.lazy(() => import('../Components/Sidebar/Sidebar'))
 const Billing = () => {
   const dispatch =useDispatch()
   const [invoiceNumber, setInvoiceNumber] = useState('');

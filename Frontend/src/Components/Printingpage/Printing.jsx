@@ -84,12 +84,16 @@ const Printing = ({ invoiceData }) => {
                   <div className="col-xl-4">
                     <ul className="list-unstyled">
                       <li className="text-muted">
-                        <i className="fas fa-circle" style={{ color: '#84B0CA' }}></i>{' '}
-                        <span className="fw-bold">Date:</span>{formatDate(invoiceData?.selectedDate)}
+                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span>{formatDate(invoiceData?.selectedDate)}
                       </li>
                       <li className="text-muted">
-                        <i className="fas fa-circle" style={{ color: '#84B0CA' }}></i>{' '}
-                        <span className="fw-bold">Invoice No: </span>{invoiceData?.invoiceNumber}
+                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;Due Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span>{formatDate(invoiceData?.selectedDate)}
+                      </li>
+                      <li className="text-muted">
+                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;Invoice No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; </span>{invoiceData?.invoiceNumber}
+                      </li>
+                      <li className="text-muted">
+                        <span className="fw-bold">Balance Due&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</span>0.00
                       </li>
 
                     </ul>

@@ -18,7 +18,7 @@ export default {
             // If an error occurs, respond with an error message
             res.status(500).json({
                 success: false,
-                message: "Failed to add company.",
+                message: "Failed to add invoice.",
                 error: err.message,
             });
         }
