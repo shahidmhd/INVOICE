@@ -30,7 +30,7 @@ export const getnotdeletedEstimate = async () => {
 
 export const getselectedEstimate = async (invoiceid) => {
     try {
-        const response = await instance.get(`/api/users/selectedEstimate/${invoiceid}`);;
+        const response = await instance.get(`/api/users/selectedEstimate/${invoiceid}`);
         return response.data
     } catch (err) {
         return err.message;
@@ -39,27 +39,27 @@ export const getselectedEstimate = async (invoiceid) => {
 
 
 
-// export const deleteInvoice = async (invoiceid) => {
-//     try {
-//         const response = await instance.delete(`/api/users/invoice/${invoiceid}`);;
-//         return response.data
-//     } catch (err) {
-//         return err.message;
-//     }
-// }
+export const deleteestimate = async (invoiceid) => {
+    try {
+        const response = await instance.delete(`/api/users/deleteestimate/${invoiceid}`);;
+        return response.data
+    } catch (err) {
+        return err.message;
+    }
+}
 
 
-// export const EditINVOICEdata = async (payload) => {
-//     try {
-//         const Invoiceid = payload._id
-//         const payloadWithoutId = { ...payload };
-//         delete payloadWithoutId._id;
-//         const response = await instance.patch(`/api/users/invoice/${Invoiceid}`, payloadWithoutId);
-//         return response.data
-//     } catch (err) {
-//         return err.response.data;
-//     }
-// }
+export const EditEstimate = async (payload) => {
+    try {
+        const Invoiceid = payload._id
+        const payloadWithoutId = { ...payload };
+        delete payloadWithoutId._id;
+        const response = await instance.patch(`/api/users/editestimate/${Invoiceid}`, payloadWithoutId);
+        return response.data
+    } catch (err) {
+        return err.response.data;
+    }
+}
 
 // export const searchdatas = async (startdate,enddate) => {
 //     try {

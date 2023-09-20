@@ -2,7 +2,8 @@ import React from 'react';
 import { useReactToPrint } from 'react-to-print';
 
 
-const Printing = ({ invoiceData }) => {
+const Printingestimate = ({ invoiceData }) => {
+
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, '0');
@@ -68,9 +69,6 @@ const Printing = ({ invoiceData }) => {
                         GSTIN/UIN : 32CNEPN1375G1Z6</p>
                     </div>
 
-
-
-
                   </div>
                 </div>
 
@@ -91,18 +89,8 @@ const Printing = ({ invoiceData }) => {
                         <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span>{formatDate(invoiceData?.selectedDate)}
                       </li>
                       <li className="text-muted">
-                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;Due Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span>{invoiceData?.Duedate}
-                      </li>
-                      <li className="text-muted">
                         <span className="fw-bold">&nbsp;&nbsp;&nbsp;Invoice No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; </span>{invoiceData?.invoiceNumber}
                       </li>
-                      <li className="text-muted">
-                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</span>{invoiceData?.paidamount?invoiceData.paidamount:0}
-                      </li>
-                      <li className="text-muted">
-                        <span className="fw-bold">Balance Due&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</span>{invoiceData?.Dueamount ? invoiceData.Dueamount:invoiceData?.totalAmount-invoiceData?.paidamount}
-                      </li>
-
                     </ul>
                   </div>
                 </div>
@@ -146,7 +134,7 @@ const Printing = ({ invoiceData }) => {
                           <span className="text-black me-4">SubTotal</span>₹{invoiceData?.subtotal}
                         </li>
                         <li className="text-muted mt-2">
-                          <span className="text-black me-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGST</span>₹{invoiceData?.gst18}
+                          <span className="text-black me-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGST</span>₹{invoiceData?.gst18}
                         </li>
                       </ul>
                       <p className="text-black mt-3 mt-md-0">
@@ -179,5 +167,5 @@ const Printing = ({ invoiceData }) => {
   );
 };
 
-export default Printing;
+export default Printingestimate;
 

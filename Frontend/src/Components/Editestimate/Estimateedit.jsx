@@ -15,23 +15,21 @@ import {
     MDBTableHead,
     MDBTableBody,
 } from 'mdb-react-ui-kit';
-import { EditINVOICEdata } from '../../apicalls/Invoice';
 import { toast } from 'react-toastify';
+import { EditEstimate } from '../../apicalls/Estimate';
 
-const Details = ({ companydetails, servicedetails, invoiceData }) => {
+const Estimmateedit = ({ companydetails, servicedetails, invoiceData }) => {
 
     const [selectedDate, setSelectedDate] = useState(
         invoiceData?.selectedDate ? parseISO(invoiceData.selectedDate) : new Date()
     );
-    const [selectedDueDate, setSelectedDueDate] = useState(
-        invoiceData?.selectedDate ? parseISO(invoiceData.selecteDuedDate) : new Date()
-    );
+
 
 
 
     const [selctedCompantId, setselectedCompanyId] = useState(invoiceData?.selectedCompanyId?._id || '');
     const [SelectedService, setSelectedService] = useState(null)
-    const [paidamount, setpaidamount] = useState(invoiceData?.paidamount)
+  
     const [SelectedServiceId, setSelectedServiceId] = useState(null)
     const [HSNCode, setHSNCode] = useState(null)
     const [invoiceDatas, setinvoiceDatas] = useState(invoiceData)
@@ -55,13 +53,7 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
-    const handlepaidamount=(e)=>{
-        setpaidamount(e.target.value)
-    }
 
-    const handleDueDateChange = (date) => {
-        setSelectedDueDate(date);
-    };
 
 
     const handleServiceChange = (index, serviceId) => {
@@ -207,31 +199,26 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
 
             const savedData = {
                 _id: invoiceData._id,
-                paidamount:Number(paidamount),
-                Dueamount:invoiceDatas?.totalAmount-paidamount,
                 gst18: invoiceDatas.gst18,
                 invoiceNumber: invoiceData.invoiceNumber,
                 selectedCompanyId: selctedCompantId,
                 selectedDate: selectedDate,
-                selecteDuedDate: selectedDueDate,
-                Duedate: formatDate(selectedDueDate),
                 date: formatDate(selectedDate),
                 subtotal: invoiceDatas.subtotal,
                 tableRows: tableRows,
                 totalAmount: invoiceDatas.totalAmount,
             };
 
-            const response = await EditINVOICEdata(savedData);
+            const response = await EditEstimate(savedData);
             if (response.success) {
-                toast.success('Invoice edited successfully!', {
+                toast.success('Estimate edited successfully!', {
                     hideProgressBar: true,
                 });
-                navigate('/table')
+                navigate('/estimatedetails')
             } else {
                 toast.error(response.error)
             }
 
-            console.log(savedData,"hjjdddd");
         } catch (err) {
             console.log(err);
         }
@@ -262,9 +249,9 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                             </div> */}
                             <div className="date-input mt-3 mt-md-0">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span className="fw-bold"> Date:</span>   <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
-                                <span className="fw-bold"> Due Date:</span> <DatePicker selected={selectedDueDate} onChange={handleDueDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
+                                {/* <span className="fw-bold"> Due Date:</span> <DatePicker selected={selectedDueDate} onChange={handleDueDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br /> */}
                                 <b>&nbsp;&nbsp; Invoice NO&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{invoiceData?.invoiceNumber}</b><br/>
-                                <b> Amount Due&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{invoiceDatas?.totalAmount-paidamount}</b>
+                               
                             </div>
                         </div>
                     </div>
@@ -430,11 +417,6 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                                 <li className="text-muted ms-3 mt-2">
                                     <span className="text-black me-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGST</span>:&nbsp;₹{invoiceDatas?.gst18}
                                 </li>
-                                <li className="text-muted ms-3 mt-2">
-                                   paid amount <div className="input-group">
-                                        <input type="number" className="form-control" value={paidamount}  onChange={handlepaidamount} placeholder="paid amount" />
-                                    </div>
-                                </li>
                             </MDBTypography>
                             <p className="text-black float-start">
                                 <span className="text-black me-3">Total Amount</span>
@@ -466,4 +448,5 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
     );
 };
 
-export default Details;
+export default Estimmateedit;
+

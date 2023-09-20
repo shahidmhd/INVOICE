@@ -38,6 +38,8 @@ router.post ('/searchserviceinvoice',userAuthMid,Invoicecontroller.searchservice
 router.post('/Estimate',userAuthMid,Estimatecontrollers.AddEstimate)
 router.get('/currentEstimate',userAuthMid,Estimatecontrollers.GetnotdeletedEstimate)
 router.get('/selectedEstimate/:id',userAuthMid,Estimatecontrollers.GetSelectedEstimate)
+router.patch('/editestimate/:id',userAuthMid,Estimatecontrollers.EditEstimate)
+router.delete('/deleteestimate/:id',userAuthMid,Estimatecontrollers.Deleteestimate)
 
 
 export default router;

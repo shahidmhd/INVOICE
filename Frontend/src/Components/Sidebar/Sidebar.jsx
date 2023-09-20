@@ -83,7 +83,7 @@ const Sidebar = () => {
               Invoice Details
             </CDBSidebarMenuItem>
             <CDBSidebarMenuItem icon="th-large" onClick={handleReportclick}>
-              Report
+              Invoice Report
             </CDBSidebarMenuItem>
             <CDBSidebarMenuItem icon="th-large" onClick={handleEstimateclick}>
               Estimate

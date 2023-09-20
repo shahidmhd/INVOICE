@@ -2,17 +2,11 @@
 import React, { useState } from 'react';
 import { CDBCard, CDBCardBody, CDBDataTable, CDBContainer } from 'cdbreact';
 import { useNavigate } from 'react-router-dom';
-import { deleteInvoice,} from '../../apicalls/Invoice';
 import { toast } from 'react-toastify';
-import { getselectedEstimate } from '../../apicalls/Estimate';
+import { deleteestimate, getselectedEstimate } from '../../apicalls/Estimate';
 const Details = ({ invoices, render, setrender }) => {
   const navigate = useNavigate()
-  // function formatDate(dateString) {
-  //   console.log(dateString,"date ");
-  //   const date = new Date(dateString);
-  //   const formattedDate = date.toLocaleDateString("en-US");
-  //   return formattedDate;
-  // }
+
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, '0');
@@ -25,7 +19,7 @@ const Details = ({ invoices, render, setrender }) => {
 
 
   const handleeditpage = (invoiceid) => {
-    navigate(`/detail/${invoiceid}`)
+    navigate(`/editestimate/${invoiceid}`)
 
   }
 
@@ -33,16 +27,15 @@ const Details = ({ invoices, render, setrender }) => {
 
 
   const handleestimateprintpage = async (item) => {
-    console.log(item);
    await getselectedEstimate(item._id)
     navigate(`/estimateprint/${item._id}`);
   };
 
 
   const handledeletepage = async (item) => {
-    const response = await deleteInvoice(item._id)
+    const response = await deleteestimate(item._id)
     if (response.success) {
-      toast.success("invoice deleted")
+      toast.success("Estimate deleted")
       setrender(!render)
     }
   }

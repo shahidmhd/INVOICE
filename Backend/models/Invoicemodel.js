@@ -20,9 +20,11 @@ const invoiceSchema = new mongoose.Schema({
   },
   paidamount:{
     type: Number,
+    default: 0, // Default value set to 0
   },
   Dueamount:{
     type: Number,
+    default: 0, // Default value set to 0
   },
   selecteDuedDate:{
     type: Date,

@@ -19,6 +19,7 @@ import jwtDecode from 'jwt-decode';
 import Estimate from './Pages/Estimate';
 import EstimateDetail from './Pages/EstimateDetail';
 import Estimateprint from './Pages/Estimateprint';
+import Editestimate from './Pages/Editestimate';
 
 const Company = React.lazy(() => import('./Pages/Company'))
 const Service = React.lazy(() => import('./Pages/Service'))
@@ -133,6 +134,10 @@ if (hasTokenExpired) {
           <Route
             path='/detail/:id'
             element={token ? <Detailpage /> : <Navigate to={'/login'} />}
+          />
+           <Route
+            path='/editestimate/:id'
+            element={token ? <Editestimate/> : <Navigate to={'/login'} />}
           />
           <Route
             path='/Report'

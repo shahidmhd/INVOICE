@@ -32,7 +32,7 @@ const EstimateSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.Mixed,
       required: true,
     },
-    Gst:{
+     Gst:{
       type: Number,
       required: true,
     },
