@@ -1,13 +1,14 @@
 
 import React, { useEffect, useState } from 'react'
-import Sidebar from '../Components/Sidebar/Sidebar'
-import Companycreation from '../Components/CompanyCreation/Companycreation'
+// import Sidebar from '../Components/Sidebar/Sidebar'
+// import Companycreation from '../Components/CompanyCreation/Companycreation'
 import { getallcompanies, getnotdeletedallcompanies } from '../apicalls/Company'
 import Loading from './Loading'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { setLogout } from '../Redux/Authslice'
-
+const Sidebar = React.lazy(() => import('../Components/Sidebar/Sidebar'))
+const Companycreation = React.lazy(() => import('../Components/CompanyCreation/Companycreation'))
 
 const Company = () => {
   const dispatch=useDispatch()

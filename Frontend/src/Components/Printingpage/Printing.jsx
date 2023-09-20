@@ -3,12 +3,6 @@ import { useReactToPrint } from 'react-to-print';
 
 
 const Printing = ({ invoiceData }) => {
-  console.log(invoiceData);
-  // function formatDate(dateString) {
-  //   const date = new Date(dateString);
-  //   const formattedDate = date.toLocaleDateString("en-US");
-  //   return formattedDate;
-  // }
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -34,37 +28,48 @@ const Printing = ({ invoiceData }) => {
           <div className="card mx-auto">
             <div className="card-body"></div>
 
-              <div className="d-flex justify-content-end  " style={{marginRight:'1em'}}>
-                <a onClick={handlePrint} className="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark">
-                  <i className="fas fa-print text-primary"></i> Print
-                </a>
-              </div>
+            <div className="d-flex justify-content-end  " style={{ marginRight: '1em' }}>
+              <a onClick={handlePrint} className="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark">
+                <i className="fas fa-print text-primary"></i> Print
+              </a>
+            </div>
 
 
             <div className="container mb-5 mt-3" ref={componentRef}>
               <div className="row d-flex align-items-baseline">
-                <div className="col-xl-9 mb-5" >
-                  <img src="/Cyenosure1.png" alt="Your Logo" />
-                </div>
 
-
-
-                <div className="col-xl-3 float-end">
-                  {/* <a onClick={handlePrint} className="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark">
-                    <i className="fas fa-print text-primary"></i> Print
-                  </a> */}
-                </div>
-                <hr />
               </div>
 
               <div className="container" >
                 <div className="col-md-12">
                   <div className="text-center">
-                    <span className="text-default-d3" style={{ fontSize: "2em", fontWeight: "bold" }}>GST INVOICE</span>
-                    <p className="pt-0"> 10/543/A1 , HMT COLONY<br />
-                      KALAMASSERY , ERNAKUKLAM
-                      KERALA - 683503<br />
-                      GSTIN/UIN : 32CNEPN1375G1Z6</p>
+                    <div
+                      style={{
+                        marginTop: '1em',
+                        float: 'left',   // Float the logo container to the right
+
+                      }}
+                    >
+                      <img
+                        src="/Cyenosure1.png"
+                        alt="Logo"
+                        style={{
+                          width: '17em', // Set the width of the logo as needed
+                          height: 'auto', // Maintain aspect ratio
+                        }}
+                      />
+                    </div><br /><br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-default-d3" style={{ fontSize: "2em", fontWeight: "bold", textAlign: 'right' }}>GST INVOICE</span>
+                   
+                    <div clasName="invoice-container" style={{ textAlign: 'left' }}>
+                    <span style={{ fontSize: "1em", fontWeight: "bold", textAlign: 'right' }}>CYENOSURE - Enter the technoverse</span>
+                      <p style={{fontSize:'.9em'}} className="pt-0">10/543/A1 , HMT COLONY<br />
+                        KALAMASSERY , ERNAKUKLAM
+                        KERALA - 683503<br />
+                        GSTIN/UIN : 32CNEPN1375G1Z6</p>
+                    </div>
+
+
 
 
                   </div>
@@ -74,11 +79,11 @@ const Printing = ({ invoiceData }) => {
                   <div className="col-xl-8">
                     <ul className="list-unstyled">
                       <li style={{ color: 'black' }}>
-                        Bill To: <span className="text-muted">  {invoiceData?.selectedCompanyId?.companyname ? invoiceData.selectedCompanyId.companyname : ''}</span>
+                       <span style={{fontSize: "1em", fontWeight: "bold", textAlign: 'right' }}>Bill To: </span><br/><span className="text-muted">  {invoiceData?.selectedCompanyId?.companyname ? invoiceData.selectedCompanyId.companyname : ''}</span>
                       </li>
                       <li style={{ color: 'black' }}>Address: <span className="text-muted ">{invoiceData?.selectedCompanyId?.address ? invoiceData.selectedCompanyId.address : ''}</span></li>
                       <li style={{ color: 'black' }}>District,State: <span className="text-muted ">{invoiceData?.selectedCompanyId?.district ? invoiceData.selectedCompanyId.district : ''} - {invoiceData?.selectedCompanyId?.pincode ? invoiceData.selectedCompanyId.pincode : ''}</span></li>
-                      
+
                     </ul>
                   </div>
                   <div className="col-xl-4">
@@ -87,13 +92,13 @@ const Printing = ({ invoiceData }) => {
                         <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span>{formatDate(invoiceData?.selectedDate)}
                       </li>
                       <li className="text-muted">
-                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;Due Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span>{formatDate(invoiceData?.selectedDate)}
+                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;Due Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span>{invoiceData?.Duedate}
                       </li>
                       <li className="text-muted">
                         <span className="fw-bold">&nbsp;&nbsp;&nbsp;Invoice No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; </span>{invoiceData?.invoiceNumber}
                       </li>
                       <li className="text-muted">
-                        <span className="fw-bold">Balance Due&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</span>0.00
+                        <span className="fw-bold">Balance Due&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</span>{invoiceData?.Dueamount?invoiceData.Dueamount:0}
                       </li>
 
                     </ul>
@@ -138,12 +143,6 @@ const Printing = ({ invoiceData }) => {
                         </li>
                         <li className="text-muted mt-2">
                           <span className="text-black me-4">GST(18%)</span>₹{invoiceData?.gst18}
-                        </li>
-                        <li className="text-muted mt-2">
-                          <span className="text-black me-4">SGST(9%)</span>₹{invoiceData?.SGST}
-                        </li>
-                        <li className="text-muted mt-2">
-                          <span className="text-black me-4">CGST(9%)</span>₹{invoiceData?.CGST}
                         </li>
                       </ul>
                       <p className="text-black mt-3 mt-md-0">

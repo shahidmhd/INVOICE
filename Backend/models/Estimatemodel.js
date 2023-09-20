@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
-const invoiceSchema = new mongoose.Schema({
+const EstimateSchema = new mongoose.Schema({
+
   gst18: {
     type: Number,
     required: true,
@@ -18,21 +19,7 @@ const invoiceSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  paidamount:{
-    type: Number,
-  },
-  Dueamount:{
-    type: Number,
-  },
-  selecteDuedDate:{
-    type: Date,
-    required: true,
-  },
   date: {
-    type: String,
-    required: true,
-  },
-  Duedate:{
     type: String,
     required: true,
   },
@@ -85,6 +72,6 @@ const invoiceSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-const Invoice = mongoose.model('Invoice', invoiceSchema);
+const Estimate = mongoose.model('Estimate', EstimateSchema);
 
-export default Invoice;
+export default Estimate;

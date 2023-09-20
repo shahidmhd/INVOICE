@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selecteDuedDate, setSelecteDuedDate] = useState(new Date());
     const [selctedCompantId, setselectedCompanyId] = useState('');
     const [tableRows, settableRows] = useState([])
     const [SelectedService, setSelectedService] = useState(null)
@@ -33,6 +34,11 @@ const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
             handleAddRow();
         }
     };
+
+const handleDueDateChange=(date)=>{
+    setSelecteDuedDate(date)
+}
+
 
 
     const handleCompanyChange = (e) => {
@@ -77,7 +83,8 @@ const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
             HSNCode: '',
             weight: 0,
             amount: 0,
-            total: 0
+            total: 0,
+            Gst:0
         }]);
     };
 
@@ -97,7 +104,8 @@ const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
                 serviceName: selectedServiceData.servicename,
                 HSNCode: selectedServiceData.HSNCode,
                 amount: selectedServiceData.Rate,
-                total: selectedServiceData.Rate * tableRows[index].weight
+                total: selectedServiceData.Rate * tableRows[index].weight,
+                Gst: selectedServiceData?.GST / 100
             };
 
             settableRows(updatedTableRows); // Update the tableRows state
@@ -115,17 +123,23 @@ const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
             return total + rowSubtotal;
         }, 0);
 
-        const gst18 = subtotal * 0.18;
-        const CGST = gst18 / 2
-        const SGST = gst18 / 2
+        const totalGst = tableRows.reduce((Gst, row) => {
+            const rowGst = row.Gst || 0;
+            return Gst + (rowGst * row.total); // Calculate the GST for each row and add it to the total GST
+        }, 0);
+        // const gst18 = subtotal * 0.18;
+        const gst18 =totalGst;
+        // console.log(gst18,"gst");
+        // const CGST = gst18 / 2
+        // const SGST = gst18 / 2
         const totalAmount = subtotal + gst18
 
         const updatedInvoiceData = {
             ...invoiceData,
             subtotal: parseFloat(subtotal.toFixed(2)),
             gst18: parseFloat(gst18.toFixed(2)),
-            CGST: parseFloat(CGST.toFixed(2)),
-            SGST: parseFloat(SGST.toFixed(2)),
+            // CGST: parseFloat(CGST.toFixed(2)),
+            // SGST: parseFloat(SGST.toFixed(2)),
             totalAmount: parseFloat(totalAmount.toFixed(2)),
         };
 
@@ -169,15 +183,17 @@ const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
 
         const dataToSave = {
             selectedDate: selectedDate,
+            selecteDuedDate: selecteDuedDate,
             date: formatDate(selectedDate),
             selectedCompanyId: selctedCompantId,
             invoiceNumber,
             tableRows: tableRows,
             subtotal: invoiceData.subtotal,
             gst18: invoiceData.gst18,
-            SGST: invoiceData.SGST,
-            CGST: invoiceData.CGST,
+            // SGST: invoiceData.SGST,
+            // CGST: invoiceData.CGST,
             totalAmount: invoiceData.totalAmount,
+            Duedate:formatDate(selecteDuedDate),
         };
 
         // Use 'dataToSave' to save or process the data as needed
@@ -225,7 +241,7 @@ const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
                             </div>
                             <div className="date-input mt-3 mt-md-0">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span  className="fw-bold"> Date:</span>   <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
-                              <span  className="fw-bold"> Due Date:</span> <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
+                              <span  className="fw-bold"> Due Date:</span> <DatePicker selected={selecteDuedDate} onChange={handleDueDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
                                 <b> Invoice NO:{invoiceNumber ? invoiceNumber : 'B2C01'}</b>
                             </div>
                         </div>
@@ -296,6 +312,9 @@ const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
                                             Total
                                         </th>
                                         <th scope="col" style={{ backgroundColor: "#79c8db", color: "white" }}>
+                                            Gst
+                                        </th>
+                                        <th scope="col" style={{ backgroundColor: "#79c8db", color: "white" }}>
                                             Action
                                         </th>
                                         <th scope="col" style={{ backgroundColor: "#79c8db", color: "white" }}>
@@ -347,6 +366,7 @@ const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
                                                 />
                                             </td>
                                             <td>{row.total}</td>
+                                            <td>{row.Gst && row.total ? row.Gst * row.total : ''}</td>
                                             <td>
                                                 <button
                                                     className='btn'
@@ -389,16 +409,10 @@ const Bill = ({ companydetails, servicedetails, invoiceNumber }) => {
                         <MDBCol xl="3">
                             <MDBTypography listUnStyled>
                                 <li className="text-muted ms-3">
-                                    <span className="text-black me-4">SubTotal</span>₹{invoiceData?.subtotal}
+                                    <span className="text-black me-4">SubTotal</span>:&nbsp;₹{invoiceData?.subtotal}
                                 </li>
                                 <li className="text-muted ms-3 mt-2">
-                                    <span className="text-black me-4">GST 18%</span>₹{invoiceData?.gst18}
-                                </li>
-                                <li className="text-muted ms-3 mt-2">
-                                    <span className="text-black me-4">SGST 9%</span>₹{invoiceData?.SGST}
-                                </li>
-                                <li className="text-muted ms-3 mt-2">
-                                    <span className="text-black me-4">CGST 9%</span>₹{invoiceData?.CGST}
+                                <span className="text-black me-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGST</span>&nbsp;:&nbsp;₹{invoiceData?.gst18}
                                 </li>
                             </MDBTypography>
                             <p className="text-black float-start">

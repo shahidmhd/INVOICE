@@ -1,23 +1,34 @@
 import React, { useEffect, useState,Suspense } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
-import Company from './Pages/Company';
-import Service from './Pages/Service';
+// import Company from './Pages/Company';
+// import Service from './Pages/Service';
 // import Login from './Login/Login';
-import Home from './Pages/Home';
+// import Home from './Pages/Home';
 import Notfound from './Pages/Notfound';
-import Print from './Pages/Print';
-import Invoicetable from './Pages/Invoicetable';
-import Detailpage from './Pages/Detailpage';
-import Loginpage from './Pages/Loginpage';
+// import Print from './Pages/Print';
+// import Invoicetable from './Pages/Invoicetable';
+// import Detailpage from './Pages/Detailpage';
+// import Loginpage from './Pages/Loginpage';
 import { useSelector } from 'react-redux'
-import Report from './Pages/Report';
-import Billing from './Pages/Billing';
+// import Report from './Pages/Report';
+// import Billing from './Pages/Billing';
 import Changepassword from './Components/Changepassword/Changepassword';
 import { useDispatch } from 'react-redux';
 import { setLogout } from './Redux/Authslice';
 import jwtDecode from 'jwt-decode';
+import Estimate from './Pages/Estimate';
+import EstimateDetail from './Pages/EstimateDetail';
+import Estimateprint from './Pages/Estimateprint';
 
-
+const Company = React.lazy(() => import('./Pages/Company'))
+const Service = React.lazy(() => import('./Pages/Service'))
+const Home = React.lazy(() => import('./Pages/Home'))
+const Print = React.lazy(() => import('./Pages/Print'))
+const Invoicetable = React.lazy(() => import('./Pages/Invoicetable'))
+const Detailpage = React.lazy(() => import('./Pages/Detailpage'))
+const Loginpage = React.lazy(() => import('./Pages/Loginpage'))
+const Report = React.lazy(() => import('./Pages/Report'))
+const Billing = React.lazy(() => import('./Pages/Billing'))
 
 const App = () => {
   const [isActive, setIsActive] = useState(true);
@@ -111,6 +122,10 @@ if (hasTokenExpired) {
             path='/print/:id'
             element={token ? <Print /> : <Navigate to={'/login'} />}
           />
+           <Route
+            path='/estimateprint/:id'
+            element={token ? <Estimateprint/> : <Navigate to={'/login'} />}
+          />
           <Route
             path='/table'
             element={token ? <Invoicetable /> : <Navigate to={'/login'} />}
@@ -130,6 +145,14 @@ if (hasTokenExpired) {
             <Route
             path='/change-password'
             element={token ?<Changepassword/>:<Navigate to={'/login'} />}
+          />
+           <Route
+            path='/estimate'
+            element={token ?<Estimate/>:<Navigate to={'/login'} />}
+          />
+           <Route
+            path='/estimatedetails'
+            element={token ?<EstimateDetail/>:<Navigate to={'/login'} />}
           />
       
           <Route path="*" element={<Notfound />} />

@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { parseISO } from 'date-fns';
-import { useNavigate } from 'react-router-dom';
 import {
     MDBCard,
     MDBCardBody,
@@ -15,28 +13,44 @@ import {
     MDBTableHead,
     MDBTableBody,
 } from 'mdb-react-ui-kit';
-import { EditINVOICEdata } from '../../apicalls/Invoice';
 import { toast } from 'react-toastify';
-
-const Details = ({ companydetails, servicedetails, invoiceData }) => {
-
-    const [selectedDate, setSelectedDate] = useState(
-        invoiceData?.selectedDate ? parseISO(invoiceData.selectedDate) : new Date()
-    );
-    const [selectedDueDate, setSelectedDueDate] = useState(
-        invoiceData?.selectedDate ? parseISO(invoiceData.selecteDuedDate) : new Date()
-    );
-
-
-
-    const [selctedCompantId, setselectedCompanyId] = useState(invoiceData?.selectedCompanyId?._id || '');
+import { useNavigate } from 'react-router-dom';
+import { AddEstimatedata } from '../../apicalls/Estimate';
+const Estimat = ({ companydetails, servicedetails, invoiceNumber }) => {
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selctedCompantId, setselectedCompanyId] = useState('');
+    const [tableRows, settableRows] = useState([])
     const [SelectedService, setSelectedService] = useState(null)
-    const [paidamount, setpaidamount] = useState(0)
     const [SelectedServiceId, setSelectedServiceId] = useState(null)
-    const [HSNCode, setHSNCode] = useState(null)
-    const [invoiceDatas, setinvoiceDatas] = useState(invoiceData)
-    const [tableRows, settableRows] = useState(invoiceData?.tableRows)
+    const [invoiceData, setinvoiceData] = useState({})
     const navigate = useNavigate()
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+
+
+    const handleEnterKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleAddRow();
+        }
+    };
+
+
+    const handleCompanyChange = (e) => {
+        const selectedCompanyId = e.target.value;
+        setselectedCompanyId(selectedCompanyId);
+    };
+    const handleWeightChange = (index, newWeight) => {
+        const updatedTableRows = [...tableRows];
+        updatedTableRows[index].weight = Number(newWeight);
+        settableRows(updatedTableRows);
+
+        // Calculate row total based on new weight and amount
+        const rowTotal = newWeight * updatedTableRows[index].amount;
+        updatedTableRows[index].total = rowTotal;
+    };
+
 
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -47,32 +61,42 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
         return formattedDate;
     }
 
-    const handleCompanyChange = (e) => {
-        const selectedCompanyId = e.target.value;
-        setselectedCompanyId(selectedCompanyId);
-    };
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
-    const handlepaidamount=(e)=>{
-        setpaidamount(e.target.value)
+    const handleamountChange = (index, newamount) => {
+        const updatedTableRows = [...tableRows];
+        updatedTableRows[index].amount = Number(newamount);
+        settableRows(updatedTableRows);
+
+        // Calculate row total based on new weight and amount
+        const rowTotal = newamount * updatedTableRows[index].weight;
+        updatedTableRows[index].total = rowTotal;
     }
 
-    const handleDueDateChange = (date) => {
-        setSelectedDueDate(date);
+
+    const handleAddRow = () => {
+        settableRows(prevRows => [...prevRows, {
+            serviceName: '',
+            HSNCode: '',
+            weight: 0,
+            amount: 0,
+            total: 0,
+            Gst:0,
+        }]);
     };
 
+
+    const handleDeleteRow = (index) => {
+        settableRows((prevRows) => prevRows.filter((_, i) => i !== index));
+    };
 
     const handleServiceChange = (index, serviceId) => {
         const selectedServiceId = serviceId;
         const selectedServiceData = servicedetails.find((service) => service._id === selectedServiceId);
-        console.log(selectedServiceData, "selected data");
-
         if (selectedServiceData) {
             const updatedTableRows = [...tableRows]; // Clone the tableRows array
             updatedTableRows[index] = {
                 ...updatedTableRows[index],
+                id: selectedServiceData._id,
                 serviceName: selectedServiceData.servicename,
                 HSNCode: selectedServiceData.HSNCode,
                 amount: selectedServiceData.Rate,
@@ -89,191 +113,130 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
         }
     };
 
-    const handleamountChange = (index, newamount) => {
-        const updatedTableRows = [...tableRows];
-        updatedTableRows[index].amount = Number(newamount);
-        settableRows(updatedTableRows);
-
-        // Calculate row total based on new weight and amount
-        const rowTotal = newamount * updatedTableRows[index].weight;
-        updatedTableRows[index].total = rowTotal;
-    }
-
-
-    const handleWeightChange = (index, newWeight) => {
-        const updatedTableRows = [...tableRows];
-        updatedTableRows[index].weight = Number(newWeight);
-        settableRows(updatedTableRows);
-
-        // Calculate row total based on new weight and amount
-        const rowTotal = newWeight * updatedTableRows[index].amount;
-        updatedTableRows[index].total = rowTotal;
-    };
-
     useEffect(() => {
         const subtotal = tableRows.reduce((total, row) => {
             const rowSubtotal = row.total || 0;
             return total + rowSubtotal;
         }, 0);
 
-
         const totalGst = tableRows.reduce((Gst, row) => {
             const rowGst = row.Gst || 0;
             return Gst + (rowGst * row.total); // Calculate the GST for each row and add it to the total GST
         }, 0);
         const gst18 = totalGst;
-        // const CGST = gst18 / 2
-        // const SGST = gst18 / 2
+       
         const totalAmount = subtotal + gst18
 
         const updatedInvoiceData = {
             ...invoiceData,
             subtotal: parseFloat(subtotal.toFixed(2)),
             gst18: parseFloat(gst18.toFixed(2)),
-            // CGST: parseFloat(CGST.toFixed(2)),
-            // SGST: parseFloat(SGST.toFixed(2)),
             totalAmount: parseFloat(totalAmount.toFixed(2)),
         };
 
-        setinvoiceDatas(updatedInvoiceData);
+        setinvoiceData(updatedInvoiceData);
+
     }, [tableRows]);
 
 
+    const handleSave = async () => {
+        if (!selctedCompantId || selctedCompantId.trim() === "") {
+            toast.error("Please select a Company", {
+                hideProgressBar: true,
+            });
+            return;
+        }
 
-    const handleDeleteRow = (index) => {
-        const updatedRows = [...tableRows];
-        updatedRows.splice(index, 1);
-        settableRows(updatedRows);
-    };
 
-    const handleAddRow = () => {
-        const newRow = {
-            id: tableRows.length + 1, // You can generate IDs based on your logic
-            name: '',
-            serviceName: '',
-            HSNCode: '',
-            weight: 0,
-            amount: 0,
-            total: 0,
-            Gst: 0,
+
+        if (!selectedDate) {
+            toast.error("Select Date", {
+                hideProgressBar: true,
+            });
+            return;
+        }
+
+
+        if (!SelectedService && tableRows.length <= 0) {
+            toast.error("Please select a Service", {
+                hideProgressBar: true,
+            });
+            return;
+        }
+        if (invoiceData.subtotal === 0) {
+            toast.error("Please select a Service", {
+                hideProgressBar: true,
+            });
+            return;
+
+        }
+
+
+        const dataToSave = {
+            selectedDate: selectedDate,
+            date: formatDate(selectedDate),
+            selectedCompanyId: selctedCompantId,
+            invoiceNumber,
+            tableRows: tableRows,
+            subtotal: invoiceData.subtotal,
+            gst18: invoiceData.gst18,
+            totalAmount: invoiceData.totalAmount,
         };
 
-        settableRows([...tableRows, newRow]);
+
+        console.log(dataToSave,"estimate");
+        // Use 'dataToSave' to save or process the data as needed
+        // Here you can save the data to your backend or do whatever you need with it
+        const response = await AddEstimatedata(dataToSave);
+        if (response.success) {
+            toast.success('Estimate saved successfully!', {
+                hideProgressBar: true,
+            });
+            navigate('/estimate')
+        }else{
+            toast.error("Estimate Not added ")
+        }
+        // Add your logic to save the data or perform other actions
+
+        // Example: Clear the form after saving
+        setSelectedDate(new Date());
+        setselectedCompanyId('');
+        settableRows([]);
+        // ... (clear other states)
+
     };
 
 
 
-    const handlesave = async () => {
-        try {
-
-
-            if (!selctedCompantId || selctedCompantId.trim() === "") {
-                toast.error("Please select a Company", {
-                    hideProgressBar: true,
-                });
-                return;
-            }
-
-
-
-            if (!selectedDate) {
-                toast.error("Select Date", {
-                    hideProgressBar: true,
-                });
-                return;
-            }
-
-
-
-            if (!SelectedService && tableRows.length <= 0) {
-                toast.error("Please select a Service", {
-                    hideProgressBar: true,
-                });
-                return;
-            }
-            if (invoiceData.totalWeight <= 0) {
-                toast.error("Please add weight", {
-                    hideProgressBar: true,
-                });
-                return;
-            }
-
-            if (invoiceDatas.subtotal <= 0) {
-                toast.error("Please Select a Service", {
-                    hideProgressBar: true,
-                });
-                return;
-            }
-
-
-
-            const savedData = {
-                _id: invoiceData._id,
-                paidamount:Number(paidamount),
-                Dueamount:invoiceDatas?.totalAmount-paidamount,
-                gst18: invoiceDatas.gst18,
-                invoiceNumber: invoiceData.invoiceNumber,
-                selectedCompanyId: selctedCompantId,
-                selectedDate: selectedDate,
-                selecteDuedDate: selectedDueDate,
-                Duedate: formatDate(selectedDueDate),
-                date: formatDate(selectedDate),
-                subtotal: invoiceDatas.subtotal,
-                tableRows: tableRows,
-                totalAmount: invoiceDatas.totalAmount,
-            };
-
-            const response = await EditINVOICEdata(savedData);
-            if (response.success) {
-                toast.success('Invoice edited successfully!', {
-                    hideProgressBar: true,
-                });
-                navigate('/table')
-            } else {
-                toast.error(response.error)
-            }
-
-            console.log(savedData,"hjjdddd");
-        } catch (err) {
-            console.log(err);
-        }
-    }
     return (
         <MDBContainer className="py-5">
             <MDBCard style={{ border: '3px solid black' }}>
                 <div className="d-flex flex-column flex-md-row" style={{ backgroundColor: "#fff", border: '2px solid black' }}>
-                    {/* <div style={{ backgroundColor: '#79c8db', height: '100%', width: '10em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {/* <div className="bg-primary d-flex align-items-center justify-content-center min-w-10em" style={{ backgroundColor: '#79c8db', height: '12em' }}>
                         {/* hii */}
                     {/* </div> */}
                     <div className="flex-grow-1 d-flex flex-column">
                         <div className="text-center text-white p-3" style={{ backgroundColor: '#79c8db' }}>
-                            <h1>GST INVOICE</h1>
+                            <h1>Estimate</h1>
                         </div>
                         <div className="p-3 d-flex flex-column-reverse flex-md-row justify-content-between">
                             <div className="mb-3 mb-md-0">
                                 <p>CYENOSURE - Enter the technoverse</p>
                                 <p>
-                                    10/543/A1 , HMT COLONY<br />
-                                    <span style={{ fontWeight: 300 }}> KALAMASSERY , ERNAKUKLAM,KERALA - 683503</span>
+                                10/543/A1 , HMT COLONY<br />
+                                    <span style={{ fontWeight: 300 }}>KALAMASSERY , ERNAKUKLAM,KERALA - 683503</span>
                                 </p>
                                 <p>GSTIN/UIN: 32CNEPN1375G1Z6</p>
                             </div>
-                            {/* <div className="date-input mt-3 mt-md-0">
-                                <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br />
-                                <b> Invoice NO:{invoiceData?.invoiceNumber}</b>
-                            </div> */}
                             <div className="date-input mt-3 mt-md-0">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span className="fw-bold"> Date:</span>   <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
-                                <span className="fw-bold"> Due Date:</span> <DatePicker selected={selectedDueDate} onChange={handleDueDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
-                                <b>&nbsp;&nbsp; Invoice NO&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{invoiceData?.invoiceNumber}</b><br/>
-                                <b> Amount Due&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{invoiceDatas?.totalAmount-paidamount}</b>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span  className="fw-bold"> Date:</span>   <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
+                             
+                                <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Invoice NO:{invoiceNumber ? invoiceNumber : 'B2C01'}</b>
                             </div>
                         </div>
                     </div>
-
-                    {/* <div className='.hide-on-print' style={{ backgroundColor: '#79c8db', height: '30%', width: '16em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    </div> */}
                 </div>
+
                 <MDBCardBody>
                     <MDBRow className="justify-content-center">
                         <MDBCol xl="8">
@@ -296,23 +259,10 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                                         </select>
                                     </div>
 
-
-
                                 </div>
                             </MDBTypography>
                         </MDBCol>
                     </MDBRow>
-                    {tableRows.length === 0 && (
-                        <div className="my-2 mx-1 d-flex justify-content-end">
-                            <button
-                                className='btn'
-                                size="sm"
-                                onClick={handleAddRow}
-                            >
-                                <MDBIcon style={{ color: 'green' }} fas icon="plus-circle" />
-                            </button>
-                        </div>
-                    )}
                     <MDBRow className="my-2 mx-1 justify-content-center">
                         <MDBCol lg="12" className="table-responsive">
                             <MDBTable striped borderless>
@@ -349,7 +299,6 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                                     </tr>
                                 </MDBTableHead>
                                 <MDBTableBody style={{ justifyItems: "center" }}>
-
                                     {tableRows.map((row, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
@@ -362,9 +311,10 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                                                         color: 'black',
                                                         padding: '5px',
                                                     }}
+
                                                     onChange={(e) => handleServiceChange(index, e.target.value)}
                                                 >
-                                                    <option value={row._id}>{row.serviceName || 'Select a service'}</option>
+                                                    <option value="">select service</option>
                                                     {servicedetails &&
                                                         servicedetails.map((item) => (
                                                             <option key={item._id} value={item._id}>
@@ -372,16 +322,14 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                                                             </option>
                                                         ))}
                                                 </select>
-
                                             </td>
-
-                                            <td>{HSNCode ? HSNCode : row.HSNCode}</td>
+                                            <td>{row.HSNCode}</td>
                                             <td>
                                                 <input
                                                     type="number"
                                                     value={row.weight ? row.weight : ''}
                                                     onChange={(e) => handleWeightChange(index, e.target.value)}
-
+                                                    onKeyPress={handleEnterKeyPress}
                                                 />
                                             </td>
                                             <td>
@@ -389,11 +337,11 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                                                     type="number"
                                                     value={row.amount ? row.amount : ''}
                                                     onChange={(e) => handleamountChange(index, e.target.value)}
-
+                                                    onKeyPress={handleEnterKeyPress}
                                                 />
                                             </td>
-                                            <td>{row.total || 0}</td>
-                                            <td>{row.Gst * row.total || 0}</td>
+                                            <td>{row.total}</td>
+                                            <td>{row.Gst && row.total ? row.Gst * row.total : ''}</td>
                                             <td>
                                                 <button
                                                     className='btn'
@@ -411,11 +359,20 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                                                 >
                                                     <MDBIcon style={{ color: 'green' }} fas icon="plus-circle" />
                                                 </button>
-
                                             </td>
                                         </tr>
                                     ))}
+                                    {tableRows.length === 0 && (
+                                        settableRows(prevRows => [...prevRows, {
+                                            serviceName: '',
+                                            HSNCode: '',
+                                            weight: 0,
+                                            amount: 0,
+                                            total: 0
+                                        }])
+                                    )}
                                 </MDBTableBody>
+
 
                             </MDBTable>
                         </MDBCol>
@@ -427,20 +384,15 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                         <MDBCol xl="3">
                             <MDBTypography listUnStyled>
                                 <li className="text-muted ms-3">
-                                    <span className="text-black me-4">SubTotal</span>:&nbsp;₹{invoiceDatas?.subtotal}
+                                    <span className="text-black me-4">SubTotal</span>:&nbsp;₹{invoiceData?.subtotal}
                                 </li>
                                 <li className="text-muted ms-3 mt-2">
-                                    <span className="text-black me-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGST</span>:&nbsp;₹{invoiceDatas?.gst18}
-                                </li>
-                                <li className="text-muted ms-3 mt-2">
-                                   paid amount <div className="input-group">
-                                        <input type="number" className="form-control" value={paidamount}  onChange={handlepaidamount} placeholder="paid amount" />
-                                    </div>
+                                    <span className="text-black me-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGST</span>:&nbsp;₹{invoiceData?.gst18}
                                 </li>
                             </MDBTypography>
                             <p className="text-black float-start">
                                 <span className="text-black me-3">Total Amount</span>
-                                <span style={{ fontSize: "25px" }}>₹{invoiceDatas?.totalAmount}</span>
+                                <span style={{ fontSize: "25px" }}>₹{invoiceData?.totalAmount}</span>
                             </p>
                         </MDBCol>
                     </MDBRow>
@@ -454,18 +406,19 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                             <button
                                 className="text-capitalize btn"
                                 style={{ backgroundColor: "#60bdf3", color: 'white' }}
-                                onClick={handlesave}
+                                onClick={handleSave}
                             >
                                 <MDBIcon fas icon="save" className="me-2" />
                                 SAVE
                             </button>
                         </MDBCol>
                     </MDBRow>
+
                     {/* ... (rest of the JSX) */}
                 </MDBCardBody>
             </MDBCard>
         </MDBContainer>
-    );
-};
+    )
+}
 
-export default Details;
+export default Estimat

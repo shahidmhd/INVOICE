@@ -181,8 +181,6 @@ const Reportpage = ({ invoiceData, companydetails, serviceDetails }) => {
   const [totals, setTotals] = useState({
     taxableValue: 0,
     igst: 0,
-    sgst: 0,
-    cgst: 0,
     totalAmount: 0,
   });
 
@@ -191,22 +189,16 @@ const Reportpage = ({ invoiceData, companydetails, serviceDetails }) => {
     if (filterinvoiceDatas && filterinvoiceDatas.length > 0) {
       let totalTaxableValue = 0;
       let totalIGST = 0;
-      let totalSGST = 0;
-      let totalCGST = 0;
       let totalAmount = 0;
 
       filterinvoiceDatas.forEach((item) => {
         item.tableRows.forEach((row) => {
           const taxableValue = row.weight * row.amount;
-          const igst = (taxableValue * 0.18).toFixed(2);
-          const sgst = (taxableValue * 0.09).toFixed(2); // SGST is half of IGST
-          const cgst = (taxableValue * 0.09).toFixed(2); // CGST is half of IGST
+          const igst = (taxableValue * row.Gst).toFixed(2);
           const rowTotal = (taxableValue + parseFloat(igst)).toFixed(2);
 
           totalTaxableValue += taxableValue;
           totalIGST += parseFloat(igst);
-          totalSGST += parseFloat(sgst);
-          totalCGST += parseFloat(cgst);
           totalAmount += parseFloat(rowTotal);
         });
       });
@@ -214,16 +206,12 @@ const Reportpage = ({ invoiceData, companydetails, serviceDetails }) => {
       setTotals({
         taxableValue: totalTaxableValue.toFixed(2),
         igst: totalIGST.toFixed(2),
-        sgst: totalSGST.toFixed(2),
-        cgst: totalCGST.toFixed(2),
         totalAmount: totalAmount.toFixed(2),
       });
     }else{
       setTotals({
         taxableValue: 0.00,
         igst:0.00,
-        sgst:0.00,
-        cgst:0.00,
         totalAmount:0.00,
       });
 
@@ -240,8 +228,6 @@ const Reportpage = ({ invoiceData, companydetails, serviceDetails }) => {
     }
     const formattedTotalAmount = `${totals.totalAmount}`;
     const formattedtotalIGST = ` ${totals.igst}`;
-    const formattedtotalSGST = ` ${totals.sgst}`;
-    const formattedtotalCGST = `${totals.cgst}`;
     return {
       columns: [
         // {
@@ -310,18 +296,6 @@ const Reportpage = ({ invoiceData, companydetails, serviceDetails }) => {
           width: 100,
         },
         {
-          label: 'SGST',
-          field: 'SGST',
-          sort: 'disabled',
-          width: 100,
-        },
-        {
-          label: 'CGST',
-          field: 'CGST',
-          sort: 'disabled',
-          width: 100,
-        },
-        {
           label: 'Total',
           field: 'Total',
           sort: 'disabled',
@@ -339,10 +313,9 @@ const Reportpage = ({ invoiceData, companydetails, serviceDetails }) => {
           weight: row.weight,
           unitvalue: row.amount,
           Taxablevalue: row.weight * row.amount,
-          IGST: (row.weight * row.amount * 0.18).toFixed(2),
-          SGST: ((row.weight * row.amount * 0.18) / 2).toFixed(2), // SGST is half of IGST
-          CGST: ((row.weight * row.amount * 0.18) / 2).toFixed(2), // CGST is half of IGST
-          Total: (row.weight * row.amount + row.weight * row.amount * 0.18).toFixed(2), // Taxablevalue + gst18
+          IGST: (row.weight * row.amount * row.Gst).toFixed(2),
+       
+          Total: (row.weight * row.amount + row.weight * row.amount * row.Gst).toFixed(2), // Taxablevalue + gst18
         }))
       ),
       // Add an additional row with empty values
@@ -357,8 +330,6 @@ const Reportpage = ({ invoiceData, companydetails, serviceDetails }) => {
         unitvalue: '',
         Taxablevalue: 'Total:',
         IGST: formattedtotalIGST,
-        SGST: formattedtotalSGST,
-        CGST: formattedtotalCGST,
         Total: formattedTotalAmount,
       },
       ]

@@ -106,7 +106,7 @@ export default {
     EditINVOICE: async (req, res) => {
         try {
             const { id } = req.params;
-            const { invoiceNumber, airwayBillNo } = req.body;
+            
 
             const Invoice = await invoice.findById(id);
             if (!Invoice) {
@@ -115,33 +115,16 @@ export default {
                 throw new Error("invoice not found.");
             }
 
-            // Check if the 'invoiceNumber' already exists for a different invoice
-            // const existingInvoiceNumber = await invoice.findOne({ invoiceNumber: invoiceNumber });
-
-            // if (existingInvoiceNumber && id !== existingInvoiceNumber._id.toString()) {
-            //     // If the invoiceNumber already exists for a different invoice, throw an error
-            //     throw new
-            //         AppError('Invoice number already exists', 403);
-            // }
-
-            // Check if the 'airwayBillNo' already exists for a different invoice
-            const existingAirwayBillNo = await invoice.findOne({ airwayBillNo: airwayBillNo });
-
-            if (existingAirwayBillNo && id !== existingAirwayBillNo._id.toString()) {
-                // If the airwayBillNo already exists for a different invoice, throw an error
-                throw new AppError('Airway bill number already exists', 403);
-            }
-
             // Update the invoice with the new data
             await invoice.findByIdAndUpdate(
                 { _id: id },
-                { invoiceNumber, airwayBillNo, ...req.body },
+                {...req.body },
                 { new: true }
             );
 
             res.status(200).json({
                 success: true,
-                message: "invoice added successfully.",
+                message: "invoice Edited successfully.",
             });
 
 

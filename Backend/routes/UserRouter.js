@@ -5,6 +5,7 @@ import Companycontroller from '../controller/Companycontroller.js';
 import ServiceController from '../controller/ServiceController.js';
 import Invoicecontroller from '../controller/InvoiceController.js'
 import userAuthMid from '../Middlewear/Authmiddlewear.js';
+import Estimatecontrollers from '../controller/Estimatecontroller.js'
 
 
 router.post('/login',usercontroller.LoginUser)
@@ -31,4 +32,12 @@ router.patch('/invoice/:id',userAuthMid,Invoicecontroller.EditINVOICE)
 router.post ('/searchinvoice',userAuthMid,Invoicecontroller.searchinvoice)
 router.post ('/searchcompanyinvoice',userAuthMid,Invoicecontroller.searchcompanyinvoice)
 router.post ('/searchserviceinvoice',userAuthMid,Invoicecontroller.searchserviceinvoice)
+
+
+
+router.post('/Estimate',userAuthMid,Estimatecontrollers.AddEstimate)
+router.get('/currentEstimate',userAuthMid,Estimatecontrollers.GetnotdeletedEstimate)
+router.get('/selectedEstimate/:id',userAuthMid,Estimatecontrollers.GetSelectedEstimate)
+
+
 export default router;

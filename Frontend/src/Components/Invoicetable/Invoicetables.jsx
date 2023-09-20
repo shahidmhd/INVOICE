@@ -223,6 +223,26 @@ const Invoicetables = ({ invoices, render, setrender }) => {
         {
           label: 'Date',
           field: 'Date',
+          width: 500,
+        },
+        {
+          label: 'DueDate',
+          field: 'DueDate',
+          width: 100,
+        },
+        {
+          label: 'Amount',
+          field: 'totalAmount',
+          width: 100,
+        },
+        {
+          label: 'paidamount',
+          field: 'paidamount',
+          width: 100,
+        },
+        {
+          label: 'Balance Due',
+          field: 'amountdue',
           width: 100,
         },
         {
@@ -247,6 +267,9 @@ const Invoicetables = ({ invoices, render, setrender }) => {
         CompanyName: item.selectedCompanyId && item.selectedCompanyId.companyname ? item.selectedCompanyId.companyname : 'company Deleted',
         totalAmount: item.totalAmount,
         Date: formatDate(item.selectedDate),
+        DueDate:item.Duedate,
+        paidamount:item.paidamount?item.paidamount:0,
+        amountdue:item.Dueamount?item.Dueamount:0,
         details: (
           <button
             onClick={() => handleprintpage(item)}

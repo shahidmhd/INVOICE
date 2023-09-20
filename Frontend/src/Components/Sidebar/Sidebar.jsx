@@ -52,6 +52,14 @@ const Sidebar = () => {
   }
 
 
+  const handleEstimateclick=()=>{
+    navigate('/estimate')
+  }
+
+  const handleEstimateDetailsclick=()=>{
+    navigate('/estimatedetails')
+  }
+
 
 
   return (
@@ -76,6 +84,12 @@ const Sidebar = () => {
             </CDBSidebarMenuItem>
             <CDBSidebarMenuItem icon="th-large" onClick={handleReportclick}>
               Report
+            </CDBSidebarMenuItem>
+            <CDBSidebarMenuItem icon="th-large" onClick={handleEstimateclick}>
+              Estimate
+            </CDBSidebarMenuItem>
+            <CDBSidebarMenuItem icon="th-large" onClick={handleEstimateDetailsclick}>
+              Estimate Details
             </CDBSidebarMenuItem>
           </CDBSidebarMenu>
         </CDBSidebarContent>
