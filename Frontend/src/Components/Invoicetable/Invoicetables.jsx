@@ -194,7 +194,6 @@ const Invoicetables = ({ invoices, render, setrender }) => {
 
 
   const handleprintpage = async (item) => {
-    console.log(item);
     const response = await getselectedinvioce(item._id)
     navigate(`/print/${item._id}`);
   };

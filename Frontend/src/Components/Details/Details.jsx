@@ -173,12 +173,7 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
 
 
 
-    const handlesave = async () => {
-        const totalpaid=updatepaidamount+Number(paidamount)
-        console.log(paiddate,"paid date");
-        console.log(updatepaidamount,"paid amount");
-        console.log(totalpaid,"totalpaid");
-    
+    const handlesave = async () => { 
         try {
 
 
