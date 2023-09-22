@@ -72,7 +72,7 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
         setpaiddate(date);
     };
 
-
+  
 
     const handleServiceChange = (index, serviceId) => {
         const selectedServiceId = serviceId;
@@ -221,7 +221,12 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
             }
 
 
-            
+            const newUpdatedat = {
+                updateddate: paiddate,
+                currentpaid: updatepaidamount,
+                currentdate:formatDate(paiddate)
+             
+            };
             const savedData = {
                 
                 _id: invoiceData._id,
@@ -237,8 +242,11 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                 subtotal: invoiceDatas.subtotal,
                 tableRows: tableRows,
                 totalAmount: invoiceDatas.totalAmount,
+                updateddata:[...invoiceData.updateddata]
             };
+           
             
+           savedData.updateddata.push(newUpdatedat)
             const response = await EditINVOICEdata(savedData);
             if (response.success) {
                 toast.success('Invoice edited successfully!', {

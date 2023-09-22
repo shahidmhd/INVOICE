@@ -10,14 +10,14 @@ export const AddEstimatedata = async (payload) => {
 }
 
 
-// export const getallinvoices = async () => {
-//     try {
-//         const response = await instance.get('/api/users/invoice');
-//         return response.data
-//     } catch (err) {
-//         return err.response.data;
-//     }
-// }
+export const getallestimate = async () => {
+    try {
+        const response = await instance.get('/api/users/allestimate');
+        return response.data
+    } catch (err) {
+        return err.response.data;
+    }
+}
 
 export const getnotdeletedEstimate = async () => {
     try {

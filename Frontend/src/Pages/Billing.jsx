@@ -11,7 +11,7 @@ import { setLogout } from '../Redux/Authslice';
 const Bill = React.lazy(() => import('../Components/Billpage/Bill'))
 const Sidebar = React.lazy(() => import('../Components/Sidebar/Sidebar'))
 const Billing = () => {
-  const dispatch =useDispatch()
+  const dispatch = useDispatch()
   const [invoiceNumber, setInvoiceNumber] = useState('');
   const [companydetails, setCompanydetails] = useState([]);
   const [servicedetails, setServicedetails] = useState([]);
@@ -32,11 +32,23 @@ const Billing = () => {
     const response = await getallinvoices()
     if (response.success) {
       const invoiceCounter = response.Data.length + 1;
-      const formattedCounter = invoiceCounter.toString().padStart(2, '0');
-      const newInvoiceNumber = `B2C${formattedCounter}`;
-      setInvoiceNumber(newInvoiceNumber);
+      // const formattedCounter = invoiceCounter.toString().padStart(3, '0');
+      // console.log(formattedCounter, "ggggggggggggggggg");
+      // const newInvoiceNumber = `#CY100${formattedCounter}`;
+      // setInvoiceNumber(newInvoiceNumber);
+      // 
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear().toString(); // Get the last 2 digits of the current year
+      const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Get the current month and pad with '0' if needed
+
+      // Assuming 'formattedCounter' is your counter as you mentioned in the code
+      const formattedCounters = invoiceCounter.toString().padStart(3, '0'); // Pad the counter to 4 digits
+
+      const newInvoiceNumbers = `#CYN${currentMonth}${currentYear}${formattedCounters}`;
+      // 
+      setInvoiceNumber(newInvoiceNumbers);
     } else {
-      if(response.message==="invalid token please login"){
+      if (response.message === "invalid token please login") {
         toast.error(response.message)
         dispatch(setLogout())
       }

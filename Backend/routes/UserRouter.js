@@ -40,6 +40,7 @@ router.get('/currentEstimate',userAuthMid,Estimatecontrollers.GetnotdeletedEstim
 router.get('/selectedEstimate/:id',userAuthMid,Estimatecontrollers.GetSelectedEstimate)
 router.patch('/editestimate/:id',userAuthMid,Estimatecontrollers.EditEstimate)
 router.delete('/deleteestimate/:id',userAuthMid,Estimatecontrollers.Deleteestimate)
+router.get('/allestimate',userAuthMid,Estimatecontrollers.GetAllEstimate)
 
 
 export default router;

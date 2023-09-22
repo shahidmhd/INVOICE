@@ -18,15 +18,15 @@ const invoiceSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  paidamount:{
+  paidamount: {
     type: Number,
     default: 0, // Default value set to 0
   },
-  Dueamount:{
+  Dueamount: {
     type: Number,
     default: 0, // Default value set to 0
   },
-  selecteDuedDate:{
+  selecteDuedDate: {
     type: Date,
     required: true,
   },
@@ -34,7 +34,7 @@ const invoiceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Duedate:{
+  Duedate: {
     type: String,
     required: true,
   },
@@ -47,7 +47,7 @@ const invoiceSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.Mixed,
       required: true,
     },
-    Gst:{
+    Gst: {
       type: Number,
       required: true,
     },
@@ -67,8 +67,8 @@ const invoiceSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
-    total:{
-        type: Number,
+    total: {
+      type: Number,
       required: true,
 
     }
@@ -79,10 +79,23 @@ const invoiceSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  isdeleted:{
-    type:Boolean,
+  isdeleted: {
+    type: Boolean,
     required: true,
-}
+  },
+  updateddata: [
+    {
+      updateddate: {
+        type: Date,
+      },
+      currentpaid: {
+        type: Number,
+      },
+      currentdate: {
+        type: String,
+      },
+    },
+  ],
 }, {
   timestamps: true,
 });

@@ -117,6 +117,25 @@ export default {
             })
         }
     },
+    GetAllEstimate: async (req, res) => {
+        try {
+            const response = await Estimate.find().sort({ createdAt: -1 }).populate('selectedCompanyId');
+            if (response) {
+                res.json({
+                    success: true,
+                    message: "getting all Estimate",
+                    Data: response
+                })
+            } else {
+                throw new Error(" Estimate not found !!");
+            }
+        } catch (err) {
+            res.json({
+                success: false,
+                message: err.message
+            })
+        }
+    },
 
 
 }

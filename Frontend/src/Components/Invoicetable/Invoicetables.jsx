@@ -155,7 +155,20 @@ import { CDBCard, CDBCardBody, CDBDataTable, CDBContainer } from 'cdbreact';
 import { useNavigate } from 'react-router-dom';
 import { deleteInvoice, getselectedinvioce } from '../../apicalls/Invoice';
 import { toast } from 'react-toastify';
+import Paymentmodal from '../../Modal/Paymentmodal';
+
 const Invoicetables = ({ invoices, render, setrender }) => {
+  const [showeditModal, setShoweditModal] = useState(false);
+  const [currentdatas, setcurrentdatas] = useState(null);
+
+
+  const handlestatusClick = (item) => {
+    setcurrentdatas(item.updateddata)
+    setShoweditModal(true);
+  };
+
+
+
   const navigate = useNavigate()
   // function formatDate(dateString) {
   //   console.log(dateString,"date ");
@@ -260,6 +273,11 @@ const Invoicetables = ({ invoices, render, setrender }) => {
           field: 'deleteButton',
           width: 100,
         },
+        {
+          label: 'option',
+          field: 'paymentstatus',
+          width: 100,
+        },
       ],
       rows: invoices.map((item, index) => ({
         No: index + 1,
@@ -297,6 +315,15 @@ const Invoicetables = ({ invoices, render, setrender }) => {
             Delete
           </button>
         ),
+        paymentstatus: (
+          <button
+            onClick={() => handlestatusClick(item)}
+            style={{ cursor: 'pointer' }}
+            className="btn btn-outline-secondary btn-sm"
+          >
+            status
+          </button>
+        ),
       })),
     };
   };
@@ -332,6 +359,7 @@ const Invoicetables = ({ invoices, render, setrender }) => {
           </CDBCardBody>
         </CDBCard>
       </CDBContainer>
+      {showeditModal && <Paymentmodal showeditModal={showeditModal} setShoweditModal={setShoweditModal} currentdatas={currentdatas}/>}
     </div>
   );
 };
