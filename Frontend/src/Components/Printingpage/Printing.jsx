@@ -88,18 +88,19 @@ const Printing = ({ invoiceData }) => {
                   <div className="col-xl-4">
                     <ul className="list-unstyled">
                       <li className="text-muted">
-                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span>{formatDate(invoiceData?.selectedDate)}
+                        <span className="fw-bold">Invoice No&nbsp;&nbsp;:&nbsp; </span>{invoiceData?.invoiceNumber}
                       </li>
                       <li className="text-muted">
-                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;Due Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span>{invoiceData?.Duedate}
+                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</span>{formatDate(invoiceData?.selectedDate)}
                       </li>
                       <li className="text-muted">
-                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;Invoice No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; </span>{invoiceData?.invoiceNumber}
+                        <span className="fw-bold">Due Date&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</span>{invoiceData?.Duedate}
                       </li>
+
                       {/* <li className="text-muted">
                         <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</span>{invoiceData?.paidamount?invoiceData.paidamount:0}
-                      </li>
-                      <li className="text-muted">
+                      </li> */}
+                      {/* <li className="text-muted">
                         <span className="fw-bold">Balance Due&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</span>{invoiceData?.Dueamount ? invoiceData.Dueamount:invoiceData?.totalAmount-invoiceData?.paidamount}
                       </li> */}
 
@@ -139,7 +140,7 @@ const Printing = ({ invoiceData }) => {
                 </div> */}
 
 
-{/* not responsive */}
+                {/* not responsive */}
 
                 {/* resposive */}
 
@@ -202,11 +203,32 @@ const Printing = ({ invoiceData }) => {
                   <div className="col-xl-10">
                     <p>Thank you for your purchase</p>
                   </div>
-
-                  <div className="col-xl-2">
-
-
+                  {/* <div className="col-xl-10"><br />
+                    <p style={{ fontWeight: "bold" }}>Invoice Amount In Words</p>
+                    <span>Two thosend two hundred Rupee</span>
                   </div>
+                  <div className="col-xl-7"><br />
+                    <p style={{ fontWeight: "bold" }}>Terms and Conditions</p>
+                    <span> the t7yu sdbcsdh hvjdfv fdfvhdfvkdfv ndfkvjdfklvnfd dfvfdjkjdf fdnjkhfdjv jfdjkjvfdkjvfd jnfdjnfdkjbv dfbfdolkfd dfhhdfnvdf bhdfobdfbdfh d</span>
+                  </div>
+                  <div className="col-xl-12"><br />
+                    <p style={{ fontWeight: "bold" }}>Bank details</p>
+                    Bank Name : HDFC BANK ,FORT KOCHI<br />
+                    BANK Account No :98090987654321<br />
+                    Bank IFSC code :HDFC0009488<br />
+                    Account holders name :WESTERN COMPUTERS AND SERVICES
+                  </div>
+
+                  <div className="col-xl-12">
+                    <div className="d-flex justify-content-between">
+                      <p></p>
+                      <div>
+                        <p>For : Cyenosure Enter the Technoverse</p><br/>
+                        <p>Authorized Signature</p>
+                      </div>
+                    </div>
+                  </div> */}
+
                 </div>
               </div>
             </div>

@@ -175,8 +175,6 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
 
     const handlesave = async () => { 
         try {
-
-
             if (!selctedCompantId || selctedCompantId.trim() === "") {
                 toast.error("Please select a Company", {
                     hideProgressBar: true,
