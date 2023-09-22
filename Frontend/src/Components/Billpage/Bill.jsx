@@ -303,7 +303,7 @@ const handleDueDateChange=(date)=>{
                                             HSN Code
                                         </th>
                                         <th scope="col" style={{ backgroundColor: "#79c8db", color: "white" }}>
-                                            Weight
+                                            Unit
                                         </th>
                                         <th scope="col" style={{ backgroundColor: "#79c8db", color: "white" }}>
                                             Amount
@@ -349,21 +349,40 @@ const handleDueDateChange=(date)=>{
                                                 </select>
                                             </td>
                                             <td>{row.HSNCode}</td>
-                                            <td>
+                                            <td className="p-2">
+                                            <div className="input-group">
                                                 <input
                                                     type="number"
                                                     value={row.weight ? row.weight : ''}
                                                     onChange={(e) => handleWeightChange(index, e.target.value)}
                                                     onKeyPress={handleEnterKeyPress}
+                                                     className="form-control"
+                                                    style={{ width: '5em', height: '2rem' }} 
                                                 />
+                                                </div>
                                             </td>
-                                            <td>
+                                             {/* <td >
+                                            
+                                                <input
+                                                    type="number"
+                                                    value={row.weight ? row.weight : ''}
+                                                    onChange={(e) => handleWeightChange(index, e.target.value)}
+                                                   
+
+                                                />
+                                             
+                                            </td> */}
+                                            <td className="p-2">
+                                            <div className="input-group">
                                                 <input
                                                     type="number"
                                                     value={row.amount ? row.amount : ''}
                                                     onChange={(e) => handleamountChange(index, e.target.value)}
                                                     onKeyPress={handleEnterKeyPress}
+                                                    className="form-control"
+                                                    style={{ width: '5em', height: '2rem' }} 
                                                 />
+                                                 </div>
                                             </td>
                                             <td>{row.total}</td>
                                             <td>{row.Gst && row.total ? row.Gst * row.total : ''}</td>

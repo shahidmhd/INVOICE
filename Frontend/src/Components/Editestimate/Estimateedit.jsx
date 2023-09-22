@@ -361,21 +361,28 @@ const Estimmateedit = ({ companydetails, servicedetails, invoiceData }) => {
                                             </td>
 
                                             <td>{HSNCode ? HSNCode : row.HSNCode}</td>
-                                            <td>
+                                            <td className="p-2">
+                                            <div className="input-group">
                                                 <input
                                                     type="number"
                                                     value={row.weight ? row.weight : ''}
                                                     onChange={(e) => handleWeightChange(index, e.target.value)}
+                                                     className="form-control"
+                                                    style={{ width: '5em', height: '2rem' }} 
 
                                                 />
-                                            </td>
-                                            <td>
+                                                   </div>
+                                            </td>                                                                                    
+                                            <td className="p-2"> 
+                                            <div className="input-group">
                                                 <input
                                                     type="number"
                                                     value={row.amount ? row.amount : ''}
                                                     onChange={(e) => handleamountChange(index, e.target.value)}
-
+                                                    className="form-control"
+                                                    style={{ width: '5em', height: '2rem' }} 
                                                 />
+                                                  </div>
                                             </td>
                                             <td>{row.total || 0}</td>
                                             <td>{row.Gst * row.total || 0}</td>

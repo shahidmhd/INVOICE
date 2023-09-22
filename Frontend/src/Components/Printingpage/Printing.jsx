@@ -59,10 +59,10 @@ const Printing = ({ invoiceData }) => {
                       />
                     </div><br /><br />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-default-d3" style={{ fontSize: "2em", fontWeight: "bold", textAlign: 'right' }}>GST INVOICE</span>
-                   
+
                     <div className="invoice-container" style={{ textAlign: 'left' }}>
-                    <span style={{ fontSize: "1em", fontWeight: "bold", textAlign: 'right' }}>CYENOSURE - Enter the technoverse</span>
-                      <p style={{fontSize:'.9em'}} className="pt-0">10/543/A1 , HMT COLONY<br />
+                      <span style={{ fontSize: "1em", fontWeight: "bold", textAlign: 'right' }}>CYENOSURE - Enter the technoverse</span>
+                      <p style={{ fontSize: '.9em' }} className="pt-0">10/543/A1 , HMT COLONY<br />
                         KALAMASSERY , ERNAKUKLAM
                         KERALA - 683503<br />
                         GSTIN/UIN : 32CNEPN1375G1Z6</p>
@@ -78,7 +78,7 @@ const Printing = ({ invoiceData }) => {
                   <div className="col-xl-8">
                     <ul className="list-unstyled">
                       <li style={{ color: 'black' }}>
-                       <span style={{fontSize: "1em", fontWeight: "bold", textAlign: 'right' }}>Bill To: </span><br/><span className="text-muted">  {invoiceData?.selectedCompanyId?.companyname ? invoiceData.selectedCompanyId.companyname : ''}</span>
+                        <span style={{ fontSize: "1em", fontWeight: "bold", textAlign: 'right' }}>Bill To: </span><br /><span className="text-muted">  {invoiceData?.selectedCompanyId?.companyname ? invoiceData.selectedCompanyId.companyname : ''}</span>
                       </li>
                       <li style={{ color: 'black' }}>Address: <span className="text-muted ">{invoiceData?.selectedCompanyId?.address ? invoiceData.selectedCompanyId.address : ''}</span></li>
                       <li style={{ color: 'black' }}>District,State: <span className="text-muted ">{invoiceData?.selectedCompanyId?.district ? invoiceData.selectedCompanyId.district : ''} - {invoiceData?.selectedCompanyId?.pincode ? invoiceData.selectedCompanyId.pincode : ''}</span></li>
@@ -96,25 +96,27 @@ const Printing = ({ invoiceData }) => {
                       <li className="text-muted">
                         <span className="fw-bold">&nbsp;&nbsp;&nbsp;Invoice No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; </span>{invoiceData?.invoiceNumber}
                       </li>
-                      <li className="text-muted">
+                      {/* <li className="text-muted">
                         <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</span>{invoiceData?.paidamount?invoiceData.paidamount:0}
                       </li>
                       <li className="text-muted">
                         <span className="fw-bold">Balance Due&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</span>{invoiceData?.Dueamount ? invoiceData.Dueamount:invoiceData?.totalAmount-invoiceData?.paidamount}
-                      </li>
+                      </li> */}
 
                     </ul>
                   </div>
                 </div>
+                {/* not responsive */}
 
-                <div className="row my-2 mx-1 justify-content-center">
+
+                {/* <div className="row my-2 mx-1 justify-content-center">
                   <table className="table table-striped table-borderless">
                     <thead style={{ backgroundColor: '#84B0CA' }} className="text-white">
                       <tr>
                         <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>No</th>
                         <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>Service Name</th>
                         <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>HSN Code</th>
-                        <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>Weight</th>
+                        <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>Unit</th>
                         <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>Amount</th>
                         <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>Total</th>
                         <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>Gst</th>
@@ -134,7 +136,45 @@ const Printing = ({ invoiceData }) => {
                       ))}
                     </tbody>
                   </table>
+                </div> */}
+
+
+{/* not responsive */}
+
+                {/* resposive */}
+
+                <div className="row my-2 mx-1 justify-content-center">
+                  <div className="table-responsive">
+                    <table className="table table-striped table-borderless">
+                      <thead style={{ backgroundColor: '#84B0CA' }} className="text-white">
+                        <tr>
+                          <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>No</th>
+                          <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>Service Name</th>
+                          <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>HSN Code</th>
+                          <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>Unit</th>
+                          <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>Amount</th>
+                          <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>Total</th>
+                          <th scope="col" style={{ backgroundColor: "black", color: 'white' }}>Gst</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {invoiceData?.tableRows && invoiceData?.tableRows.map((row, index) => (
+                          <tr key={row._id}>
+                            <td>{index + 1}</td>
+                            <td>{row.serviceName}</td>
+                            <td>{row.HSNCode}</td>
+                            <td>{row.weight}</td>
+                            <td>{row.amount}</td>
+                            <td>{row.total}</td>
+                            <td>{row.total * row.Gst}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
+                {/* resposive */}
+
                 <div className="row">
                   <div className="col-md-8">
                     <p className="ms-3"> payment information</p>

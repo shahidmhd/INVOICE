@@ -272,19 +272,19 @@ const Reportpage = ({ invoiceData, companydetails, serviceDetails }) => {
           width: 100,
         },
         {
-          label: 'Weight',
+          label: 'Unit',
           field: 'weight',
           sort: 'disabled',
           width: 100,
         },
         {
-          label: 'Unit Value',
+          label: 'Unit amount',
           field: 'unitvalue',
           sort: 'disabled',
           width: 100,
         },
         {
-          label: 'Taxable Value',
+          label: 'Taxable amount',
           field: 'Taxablevalue',
           sort: 'disabled',
           width: 100,

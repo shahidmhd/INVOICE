@@ -183,8 +183,6 @@ const Estimat = ({ companydetails, servicedetails, invoiceNumber }) => {
             totalAmount: invoiceData.totalAmount,
         };
 
-
-        console.log(dataToSave,"estimate");
         // Use 'dataToSave' to save or process the data as needed
         // Here you can save the data to your backend or do whatever you need with it
         const response = await AddEstimatedata(dataToSave);
@@ -324,21 +322,29 @@ const Estimat = ({ companydetails, servicedetails, invoiceNumber }) => {
                                                 </select>
                                             </td>
                                             <td>{row.HSNCode}</td>
-                                            <td>
+                                            <td className="p-2">
+                                             <div className="input-group">
                                                 <input
                                                     type="number"
                                                     value={row.weight ? row.weight : ''}
                                                     onChange={(e) => handleWeightChange(index, e.target.value)}
                                                     onKeyPress={handleEnterKeyPress}
+                                                     className="form-control"
+                                                    style={{ width: '5em', height: '2rem' }} 
                                                 />
+                                                </div>
                                             </td>
-                                            <td>
+                                            <td className="p-2">
+                                            <div className="input-group">
                                                 <input
                                                     type="number"
                                                     value={row.amount ? row.amount : ''}
                                                     onChange={(e) => handleamountChange(index, e.target.value)}
                                                     onKeyPress={handleEnterKeyPress}
+                                                    className="form-control"
+                                                    style={{ width: '5em', height: '2rem' }} 
                                                 />
+                                                 </div>
                                             </td>
                                             <td>{row.total}</td>
                                             <td>{row.Gst && row.total ? row.Gst * row.total : ''}</td>

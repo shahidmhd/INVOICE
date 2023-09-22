@@ -32,10 +32,13 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
     const [selctedCompantId, setselectedCompanyId] = useState(invoiceData?.selectedCompanyId?._id || '');
     const [SelectedService, setSelectedService] = useState(null)
     const [paidamount, setpaidamount] = useState(invoiceData?.paidamount)
+    const [dueamount, setdueamount] = useState(invoiceData?.totalAmount-paidamount)
+    const [updatepaidamount, setupdatepaidamount] = useState(0)
     const [SelectedServiceId, setSelectedServiceId] = useState(null)
     const [HSNCode, setHSNCode] = useState(null)
     const [invoiceDatas, setinvoiceDatas] = useState(invoiceData)
     const [tableRows, settableRows] = useState(invoiceData?.tableRows)
+    const [paiddate,setpaiddate]=useState(new Date())
     const navigate = useNavigate()
 
     function formatDate(dateString) {
@@ -55,13 +58,20 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
-    const handlepaidamount=(e)=>{
-        setpaidamount(e.target.value)
-    }
+    const handlepaidamount = (e) => {
+        let a=Number(e.target.value)
+        setupdatepaidamount(a)
+      }
+      
 
     const handleDueDateChange = (date) => {
         setSelectedDueDate(date);
     };
+
+    const handlepaidDateChange = (date) => {
+        setpaiddate(date);
+    };
+
 
 
     const handleServiceChange = (index, serviceId) => {
@@ -138,6 +148,8 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
 
 
 
+
+
     const handleDeleteRow = (index) => {
         const updatedRows = [...tableRows];
         updatedRows.splice(index, 1);
@@ -162,6 +174,11 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
 
 
     const handlesave = async () => {
+        const totalpaid=updatepaidamount+Number(paidamount)
+        console.log(paiddate,"paid date");
+        console.log(updatepaidamount,"paid amount");
+        console.log(totalpaid,"totalpaid");
+    
         try {
 
 
@@ -204,11 +221,12 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
             }
 
 
-
+            
             const savedData = {
+                
                 _id: invoiceData._id,
-                paidamount:Number(paidamount),
-                Dueamount:invoiceDatas?.totalAmount-paidamount,
+                paidamount: Number(paidamount)+updatepaidamount,
+                Dueamount: invoiceDatas?.totalAmount - Number(paidamount)-updatepaidamount,
                 gst18: invoiceDatas.gst18,
                 invoiceNumber: invoiceData.invoiceNumber,
                 selectedCompanyId: selctedCompantId,
@@ -220,7 +238,7 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                 tableRows: tableRows,
                 totalAmount: invoiceDatas.totalAmount,
             };
-
+            
             const response = await EditINVOICEdata(savedData);
             if (response.success) {
                 toast.success('Invoice edited successfully!', {
@@ -231,7 +249,6 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                 toast.error(response.error)
             }
 
-            console.log(savedData,"hjjdddd");
         } catch (err) {
             console.log(err);
         }
@@ -263,8 +280,9 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                             <div className="date-input mt-3 mt-md-0">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span className="fw-bold"> Date:</span>   <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
                                 <span className="fw-bold"> Due Date:</span> <DatePicker selected={selectedDueDate} onChange={handleDueDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker' /><br /><br />
-                                <b>&nbsp;&nbsp; Invoice NO&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{invoiceData?.invoiceNumber}</b><br/>
-                                <b> Amount Due&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{invoiceDatas?.totalAmount-paidamount}</b>
+                                <b>&nbsp;&nbsp; Invoice NO&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{invoiceData?.invoiceNumber}</b><br />
+                                <b> Amount Due&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{dueamount}</b><br />
+                                <b> paid Amount&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{paidamount}</b>
                             </div>
                         </div>
                     </div>
@@ -326,7 +344,7 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                                             HSN Code
                                         </th>
                                         <th scope="col" style={{ backgroundColor: "#79c8db", color: "white" }}>
-                                            Weight
+                                            Unit
                                         </th>
                                         <th scope="col" style={{ backgroundColor: "#79c8db", color: "white" }}>
                                             Amount
@@ -374,21 +392,28 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                                             </td>
 
                                             <td>{HSNCode ? HSNCode : row.HSNCode}</td>
-                                            <td>
+                                            <td className="p-2">
+                                            <div className="input-group">
                                                 <input
                                                     type="number"
                                                     value={row.weight ? row.weight : ''}
                                                     onChange={(e) => handleWeightChange(index, e.target.value)}
+                                                    className="form-control"
+                                                    style={{ width: '5em', height: '2rem' }} 
 
                                                 />
+                                                 </div>
                                             </td>
-                                            <td>
-                                                <input
-                                                    type="number"
-                                                    value={row.amount ? row.amount : ''}
-                                                    onChange={(e) => handleamountChange(index, e.target.value)}
-
-                                                />
+                                            <td className="p-2">
+                                                <div className="input-group">
+                                                    <input
+                                                        type="number"
+                                                        value={row.amount ? row.amount : ''}
+                                                        onChange={(e) => handleamountChange(index, e.target.value)}
+                                                        className="form-control"
+                                                        style={{ width: '5em', height: '2rem' }} // Adjust the width and height as needed
+                                                    />
+                                                </div>
                                             </td>
                                             <td>{row.total || 0}</td>
                                             <td>{row.Gst * row.total || 0}</td>
@@ -431,10 +456,42 @@ const Details = ({ companydetails, servicedetails, invoiceData }) => {
                                     <span className="text-black me-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGST</span>:&nbsp;₹{invoiceDatas?.gst18}
                                 </li>
                                 <li className="text-muted ms-3 mt-2">
-                                   paid amount <div className="input-group">
-                                        <input type="number" className="form-control" value={paidamount}  onChange={handlepaidamount} placeholder="paid amount" />
+                                    <div className="input-group">
+                                        <input type="number" className="form-control"   onChange={handlepaidamount} placeholder="Enter amount" />
+                                        
                                     </div>
                                 </li>
+                                <li className="text-muted ms-3 mt-2">
+                                   paid Date <DatePicker selected={paiddate} onChange={handlepaidDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date"  className='form-control datepicker' />
+                                        
+                                
+                                </li>
+                                {/* <li className="text-muted ms-3 mt-2" style={{ display: "flex" }}>
+                                    <div style={{ flex: 1 }}>
+
+                                        <div className="input-group">
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                value={paidamount}
+                                                onChange={handlepaidamount}
+                                                placeholder="paid amount"
+                                                style={{ width: '100%', height: '100%' }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="ms-1 flex-grow-1">
+                                        <DatePicker
+                                            selected={selectedDate}
+                                            onChange={handleDateChange}
+                                            dateFormat="dd/MM/yyyy"
+                                            placeholderText="Select a date"
+                                            className='form-control datepicker'
+                                        />
+                                    </div>
+
+                                </li> */}
+
                             </MDBTypography>
                             <p className="text-black float-start">
                                 <span className="text-black me-3">Total Amount</span>
