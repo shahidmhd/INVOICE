@@ -1,7 +1,10 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-const Ledgermodal = ({ showModal, setShowModal }) => {
+import { AddLedgerdata } from '../apicalls/Ledger';
+import { toast } from 'react-toastify';
+
+const Ledgermodal = ({ showModal, setShowModal,render, setrender }) => {
 
     const {
         handleSubmit,
@@ -11,7 +14,17 @@ const Ledgermodal = ({ showModal, setShowModal }) => {
 
     const onSubmit = async (data) => {
         data.balance=Number(data.balance)
-        console.log(data);
+        const response = await AddLedgerdata(data)
+        if (response.success) {
+            toast.success(response.message)
+            setShowModal(false)
+            setrender(!render)
+
+        } else {
+            setShowModal(false)
+            setrender(!render)
+            toast.error(response.message)
+        }
     };
 
 
@@ -98,7 +111,7 @@ const Ledgermodal = ({ showModal, setShowModal }) => {
                                         e.target.style.color = 'white'; // Revert text color back to white
                                     }}
                                 >
-                                    Add company
+                                submit
                                 </button>
                             </div>
 

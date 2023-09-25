@@ -6,7 +6,7 @@ import ServiceController from '../controller/ServiceController.js';
 import Invoicecontroller from '../controller/InvoiceController.js'
 import userAuthMid from '../Middlewear/Authmiddlewear.js';
 import Estimatecontrollers from '../controller/Estimatecontroller.js'
-
+import Ledgercontroller from '../controller/Ledgercontroller.js';
 
 router.post('/login',usercontroller.LoginUser)
 router.post('/changepassword',usercontroller.changepassword)
@@ -43,4 +43,9 @@ router.delete('/deleteestimate/:id',userAuthMid,Estimatecontrollers.Deleteestima
 router.get('/allestimate',userAuthMid,Estimatecontrollers.GetAllEstimate)
 
 
+router.post('/ledger',userAuthMid,Ledgercontroller.AddLedger)
+router.get('/ledger',userAuthMid,Ledgercontroller.GetAllLedger)
+router.patch('/ledger/:id',userAuthMid,Ledgercontroller.EditLedger)
+router.delete('/ledger/:id',userAuthMid,Ledgercontroller.DeleteLedger)
+router.get('/currentledger',userAuthMid,Ledgercontroller.GetnotdeletedLedger)
 export default router;

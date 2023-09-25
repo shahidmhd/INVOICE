@@ -80,6 +80,10 @@ const Sidebar = () => {
     navigate('/ledger')
   }
 
+  const handleexpenseClick=()=>{
+    navigate('/expense')
+  }
+
 
 
   return (
@@ -113,6 +117,9 @@ const Sidebar = () => {
             </CDBSidebarMenuItem>
             <CDBSidebarMenuItem icon="th-large" onClick={handleledgerClick}>
               ledger
+            </CDBSidebarMenuItem>
+            <CDBSidebarMenuItem icon="th-large" onClick={handleexpenseClick}>
+              Expense
             </CDBSidebarMenuItem>
           </CDBSidebarMenu>
         </CDBSidebarContent>
