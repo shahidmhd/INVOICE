@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {useDispatch}from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -10,10 +10,25 @@ import {
   CDBSidebarFooter,
 } from 'cdbreact';
 import { setLogout } from '../../Redux/Authslice';
+import Addbank from '../../Modal/Addbank';
+import AddTerms from '../../Modal/AddTerms';
 
 
 const Sidebar = () => {
-  const dispatch=useDispatch()
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [modalOpen, setmodal] = useState(false);
+  const [modalOpenterms, setmodalOpenterms] = useState(false);
+  const togglemodal = () => {
+    setmodal(!modalOpen)
+  }
+
+  const togglemodalterms = () => {
+    setmodalOpenterms(!modalOpenterms)
+  }
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const handlelogout = () => {
     // localStorage.removeItem('token')
@@ -39,25 +54,30 @@ const Sidebar = () => {
     navigate('/invoice')
   };
 
-  const handleInvoictableclick=()=>{
+  const handleInvoictableclick = () => {
     navigate('/table')
   }
 
-  const handleReportclick=()=>{
+
+  const handleReportclick = () => {
     navigate('/Report')
   }
 
-  const handlechangepassword=()=>{
+  const handlechangepassword = () => {
     navigate('/change-password')
   }
 
 
-  const handleEstimateclick=()=>{
+  const handleEstimateclick = () => {
     navigate('/estimate')
   }
 
-  const handleEstimateDetailsclick=()=>{
+  const handleEstimateDetailsclick = () => {
     navigate('/estimatedetails')
+  }
+
+  const handleledgerClick=()=>{
+    navigate('/ledger')
   }
 
 
@@ -76,10 +96,10 @@ const Sidebar = () => {
             <CDBSidebarMenuItem icon="th-large" onClick={handleServicesClick}>
               Services
             </CDBSidebarMenuItem>
-            <CDBSidebarMenuItem icon="th-large" onClick={handleInvoiceClick}>
-             Create Invoice
+            <CDBSidebarMenuItem icon="file-invoice" iconType="solid" onClick={handleInvoiceClick}>
+              Create Invoice
             </CDBSidebarMenuItem>
-            <CDBSidebarMenuItem icon="th-large" onClick={handleInvoictableclick}>
+            <CDBSidebarMenuItem icon="chart-bar" iconType="solid" onClick={handleInvoictableclick}>
               Invoice Details
             </CDBSidebarMenuItem>
             <CDBSidebarMenuItem icon="th-large" onClick={handleReportclick}>
@@ -91,22 +111,48 @@ const Sidebar = () => {
             <CDBSidebarMenuItem icon="th-large" onClick={handleEstimateDetailsclick}>
               Estimate Details
             </CDBSidebarMenuItem>
+            <CDBSidebarMenuItem icon="th-large" onClick={handleledgerClick}>
+              ledger
+            </CDBSidebarMenuItem>
           </CDBSidebarMenu>
         </CDBSidebarContent>
 
-        <CDBSidebarFooter style={{ textAlign: 'center' }}>
-        <CDBSidebarMenuItem icon="th-large" onClick={handlechangepassword}>
-              Change password
-            </CDBSidebarMenuItem>
-          <div className="sidebar-btn-wrapper" style={{ padding: '20px 5px' }}>
-            <CDBSidebarMenu>
-              <CDBSidebarMenuItem icon="credit-card" iconType="solid" onClick={handlelogout} >
-                logout
+
+
+        <div className="sidebar-btn-wrapper" style={{ padding: '20px 5px' }}>
+          <CDBSidebarMenu>
+            <div>
+              <CDBSidebarMenuItem icon="cog" iconType="solid" onClick={toggleDropdown}>
+                Settings
               </CDBSidebarMenuItem>
-            </CDBSidebarMenu>
-          </div>
-        </CDBSidebarFooter>
+
+              {dropdownOpen && (
+                <>
+                  <CDBSidebarMenuItem icon="university" iconType="solid" onClick={togglemodal} >
+                    Add Bank Account
+                  </CDBSidebarMenuItem>
+                  <CDBSidebarMenuItem icon="plus" iconType="solid" onClick={togglemodalterms} >
+                    Terms &condition
+                  </CDBSidebarMenuItem>
+                  <CDBSidebarMenuItem icon="lock" iconType="solid" onClick={handlechangepassword}>
+                    change password
+                  </CDBSidebarMenuItem>
+                  <CDBSidebarMenuItem icon="sign-out-alt" iconType="solid" onClick={handlelogout} >
+                    logout
+                  </CDBSidebarMenuItem>
+                </>
+
+              )}
+            </div>
+            {/* <CDBSidebarMenuItem icon="credit-card" iconType="solid" onClick={handlelogout} >
+              logout
+            </CDBSidebarMenuItem> */}
+          </CDBSidebarMenu>
+        </div>
+
       </CDBSidebar>
+      {modalOpen && <Addbank modalOpen={modalOpen} setmodal={setmodal} />}
+      {modalOpenterms && <AddTerms modalOpenterms={modalOpenterms} setmodalOpenterms={setmodalOpenterms} />}
     </div>
   );
 };

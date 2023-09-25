@@ -118,6 +118,7 @@ const Companycreation = ({ Company, render, setrender }) => {
                                 striped
                                 bordered
                                 hover
+                                scrollY
                                 entriesOptions={[5, 20, 25]}
                                 entries={5}
                                 pagesAmount={4}

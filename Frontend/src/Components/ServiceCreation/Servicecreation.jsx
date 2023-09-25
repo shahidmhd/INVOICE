@@ -126,7 +126,7 @@ const Servicecreation = ({ Service, render, setrender }) => {
                 pagesAmount={4}
                 data={data()}
                 materialSearch={true}
-                
+                scrollY
               />
             </CDBCardBody>
           </CDBCard>

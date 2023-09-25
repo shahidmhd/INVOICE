@@ -18,6 +18,58 @@ const Printing = ({ invoiceData }) => {
     content: () => componentRef.current,
   });
 
+   // Function to convert a number into words
+   const numberToWords = (num) => {
+    const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+    const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+    if (num === 0) return 'Zero';
+
+    if (num < 10) return units[num];
+
+    if (num < 20) return teens[num - 10];
+
+    const digit1 = num % 10;
+    const digit10 = Math.floor((num / 10) % 10);
+    const digit100 = Math.floor((num / 100) % 10);
+    const digit1000 = Math.floor((num / 1000) % 10);
+    const digit10000 = Math.floor((num / 10000) % 10);
+
+    let result = '';
+
+    
+    if (digit10000 > 0) {
+      result += `${teens[digit10000]} Thousand `;
+    }
+
+   
+  if (digit1000 > 0 && digit10 !== 1) {
+    result += `${units[digit1000]} Thousand `;
+  }
+
+    if (digit100 > 0) {
+      result += `${units[digit100]} Hundred `;
+    }
+    
+
+    if (digit10 > 0) {
+      if (digit10 > 1) {
+        result += `${tens[digit10]} `;
+      } else {
+        result += `${teens[num % 100 - 10]} Rupees`;
+        return result.trim(); // Return early for numbers between 10 and 19
+      }
+    }
+
+    if (digit1 > 0) {
+      result += `${units[digit1]} Rupees`;
+    }
+
+    return result.trim();
+  };
+
+  const totalAmountInWords = numberToWords(invoiceData?.totalAmount);
 
 
   return (
@@ -81,7 +133,7 @@ const Printing = ({ invoiceData }) => {
                         <span style={{ fontSize: "1em", fontWeight: "bold", textAlign: 'right' }}>Bill To: </span><br /><span className="text-muted">  {invoiceData?.selectedCompanyId?.companyname ? invoiceData.selectedCompanyId.companyname : ''}</span>
                       </li>
                       <li style={{ color: 'black' }}>Address: <span className="text-muted ">{invoiceData?.selectedCompanyId?.address ? invoiceData.selectedCompanyId.address : ''}</span></li>
-                      <li style={{ color: 'black' }}>District,State: <span className="text-muted ">{invoiceData?.selectedCompanyId?.district ? invoiceData.selectedCompanyId.district : ''} - {invoiceData?.selectedCompanyId?.pincode ? invoiceData.selectedCompanyId.pincode : ''}</span></li>
+                      <li style={{ color: 'black' }}> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span className="text-muted ">{invoiceData?.selectedCompanyId?.district ? invoiceData.selectedCompanyId.district : ''} - {invoiceData?.selectedCompanyId?.pincode ? invoiceData.selectedCompanyId.pincode : ''}</span></li>
 
                     </ul>
                   </div>
@@ -101,7 +153,7 @@ const Printing = ({ invoiceData }) => {
                         <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</span>{invoiceData?.paidamount?invoiceData.paidamount:0}
                       </li> */}
                       {/* <li className="text-muted">
-                        <span className="fw-bold">Balance Due&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</span>{invoiceData?.Dueamount ? invoiceData.Dueamount:invoiceData?.totalAmount-invoiceData?.paidamount}
+                        <span className="fw-bold">Balance Due&nbsp;:&nbsp;</span>{invoiceData?.Dueamount ? invoiceData.Dueamount:invoiceData?.totalAmount-invoiceData?.paidamount}
                       </li> */}
 
                     </ul>
@@ -178,7 +230,7 @@ const Printing = ({ invoiceData }) => {
 
                 <div className="row">
                   <div className="col-md-8">
-                    <p className="ms-3"> payment information</p>
+                    <p className="ms-3"></p>
                   </div>
                   <div className="col-md-4 d-flex align-items-center">
                     <div className="ms-md-auto">
@@ -200,12 +252,12 @@ const Printing = ({ invoiceData }) => {
 
                 <hr />
                 <div className="row">
-                  <div className="col-xl-10">
+                  {/* <div className="col-xl-10">
                     <p>Thank you for your purchase</p>
-                  </div>
-                  {/* <div className="col-xl-10"><br />
+                  </div> */}
+                  <div className="col-xl-10"><br />
                     <p style={{ fontWeight: "bold" }}>Invoice Amount In Words</p>
-                    <span>Two thosend two hundred Rupee</span>
+                    <span>{totalAmountInWords}</span>
                   </div>
                   <div className="col-xl-7"><br />
                     <p style={{ fontWeight: "bold" }}>Terms and Conditions</p>
@@ -227,7 +279,7 @@ const Printing = ({ invoiceData }) => {
                         <p>Authorized Signature</p>
                       </div>
                     </div>
-                  </div> */}
+                  </div>
 
                 </div>
               </div>

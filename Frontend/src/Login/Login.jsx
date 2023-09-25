@@ -124,25 +124,25 @@ import {
 
 
 function Login() {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const { control, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     // Data contains email and password
     console.log(data);
     try {
-        const response = await LoginUser(data)
-        if (response.success) {
-            toast.success(response.message)
-            dispatch(setLogin({ userToken: response.data }))
-            navigate('/')
+      const response = await LoginUser(data)
+      if (response.success) {
+        toast.success(response.message)
+        dispatch(setLogin({ userToken: response.data }))
+        navigate('/')
 
-        } else {
-            toast.error(response.message)
-        }
+      } else {
+        toast.error(response.message)
+      }
     } catch (err) {
-       toast.error(err)
+      toast.error(err)
     }
   };
 
@@ -178,7 +178,7 @@ function Login() {
                 )}
               />
 
-<Controller
+              <Controller
                 name="password"
                 control={control}
                 rules={{
@@ -206,7 +206,7 @@ function Login() {
                 )}
               />
 
-              <button  className=' btn btn-primary w-100 mb-4' size='md' type="submit">Login</button>
+              <button className=' btn btn-primary w-100 mb-4' size='md' type="submit">Login</button>
             </form>
           </MDBCardBody>
         </MDBCard>

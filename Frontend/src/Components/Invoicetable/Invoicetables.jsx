@@ -354,6 +354,7 @@ const Invoicetables = ({ invoices, render, setrender }) => {
               pagesAmount={4}
               data={data()}
               materialSearch={true}
+              
             />
           </CDBCardBody>
         </CDBCard>
