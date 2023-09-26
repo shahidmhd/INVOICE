@@ -84,7 +84,9 @@ const Sidebar = () => {
     navigate('/expense')
   }
 
-
+const handleexpenseDetailsClick=()=>{
+  navigate('/expensedetails')
+}
 
   return (
     <div style={{ height: '100vh', position: 'sticky', top: 0 }}>
@@ -120,6 +122,9 @@ const Sidebar = () => {
             </CDBSidebarMenuItem>
             <CDBSidebarMenuItem icon="th-large" onClick={handleexpenseClick}>
               Expense
+            </CDBSidebarMenuItem>
+            <CDBSidebarMenuItem icon="th-large" onClick={handleexpenseDetailsClick}>
+              Expense Details
             </CDBSidebarMenuItem>
           </CDBSidebarMenu>
         </CDBSidebarContent>

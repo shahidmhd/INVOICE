@@ -21,6 +21,8 @@ import EstimateDetail from './Pages/EstimateDetail';
 import Estimateprint from './Pages/Estimateprint';
 import Editestimate from './Pages/Editestimate';
 import Ledger from './Pages/Ledger';
+import Expense from './Pages/Expense';
+import ExpenseDetail from './Pages/ExpenseDetail';
 
 const Company = React.lazy(() => import('./Pages/Company'))
 const Service = React.lazy(() => import('./Pages/Service'))
@@ -164,7 +166,14 @@ if (hasTokenExpired) {
             path='/ledger'
             element={token ?<Ledger/>:<Navigate to={'/login'} />}
           />
-      
+             <Route
+            path='/expense'
+            element={token ?<Expense/>:<Navigate to={'/login'} />}
+          />
+           <Route
+            path='/expensedetails'
+            element={token ?<ExpenseDetail/>:<Navigate to={'/login'} />}
+          />
           <Route path="*" element={<Notfound />} />
         </Routes>
       </ BrowserRouter>

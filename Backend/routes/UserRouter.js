@@ -7,6 +7,7 @@ import Invoicecontroller from '../controller/InvoiceController.js'
 import userAuthMid from '../Middlewear/Authmiddlewear.js';
 import Estimatecontrollers from '../controller/Estimatecontroller.js'
 import Ledgercontroller from '../controller/Ledgercontroller.js';
+import Expensecontroller from '../controller/Expensecontroller.js';
 
 router.post('/login',usercontroller.LoginUser)
 router.post('/changepassword',usercontroller.changepassword)
@@ -48,4 +49,9 @@ router.get('/ledger',userAuthMid,Ledgercontroller.GetAllLedger)
 router.patch('/ledger/:id',userAuthMid,Ledgercontroller.EditLedger)
 router.delete('/ledger/:id',userAuthMid,Ledgercontroller.DeleteLedger)
 router.get('/currentledger',userAuthMid,Ledgercontroller.GetnotdeletedLedger)
+
+router.post('/expense',userAuthMid,Expensecontroller.AddExpense)
+router.get('/expense',userAuthMid,Expensecontroller.GetAllExpense)
+router.get('/currentexpense',userAuthMid,Expensecontroller.Getnotdeletedexpense)
+
 export default router;
