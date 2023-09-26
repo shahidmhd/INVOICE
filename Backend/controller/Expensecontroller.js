@@ -61,4 +61,78 @@ export default {
             })
         }
     },
+    Deleteexpense: async (req, res) => {
+        try {
+            const { id } = req.params
+            // await invoice.findByIdAndDelete({ _id: id });
+            const updatedExpense = await Expense.findByIdAndUpdate(id, { isdeleted: true }, { new: true });
+            if (!updatedExpense) {
+                return res.json({
+                    success: false,
+                    message: "Expense not found",
+                });
+            }
+            res.json({
+                success: true,
+                message: "Expense deleted successfully",
+            })
+        } catch (err) {
+            res.json({
+                success: false,
+                message: err.message
+            })
+        }
+    },
+    GetSelectedexpense: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const response = await Expense.findById(id).populate('selctedledgerId');
+            if (response) {
+                res.json({
+                    success: true,
+                    message: "Expense data found",
+                    Data: response
+                });
+            } else {
+                throw new Error("Expense not found !!");
+            }
+        } catch (err) {
+            res.json({
+                success: false,
+                message: err.message
+            });
+        }
+    },
+    Editexpense: async (req, res) => {
+        try {
+            const { id } = req.params;    
+            const Invoice = await Expense.findById(id);
+            if (!Invoice) {
+
+                // If the company with the given ID is not found, throw an error
+                throw new Error("Expense not found.");
+            }
+
+            // Update the invoice with the new data
+            await Expense.findByIdAndUpdate(
+                { _id: id },
+                {...req.body },
+                { new: true }
+            );
+
+            res.status(200).json({
+                success: true,
+                message: "Expense Edited successfully.",
+            });
+
+
+        } catch (err) {
+            // If an error occurs, respond with an error message
+            res.status(500).json({
+                success: false,
+                message: "Failed to edit Expense.",
+                error: err.message,
+            });
+        }
+    },
 }

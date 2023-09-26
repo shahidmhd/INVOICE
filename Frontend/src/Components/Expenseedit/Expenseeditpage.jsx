@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { parseISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -15,22 +16,19 @@ import {
     MDBTableHead,
     MDBTableBody,
 } from 'mdb-react-ui-kit';
-import { AddExpensedata } from '../../apicalls/Expense';
-
-const Expensepage = ({ ledgerdetails, VoucherNumber }) => {
+import { Editexpensedata } from '../../apicalls/Expense';
+const Expenseeditpage = ({ expensedata, ledgerdetails }) => {
+    const [selectedDate, setSelectedDate] = useState(
+        expensedata?.selectedDate ? parseISO(expensedata.selectedDate) : new Date()
+    );
+    const [updatedtotalamount, setupdatedtotalamount] = useState(expensedata?.totalAmount)
+    const [selctedledgerId, setselctedledgerId] = useState(expensedata?.selctedledgerId?._id || '');
+    const [tableRows, settableRows] = useState(expensedata?.tableRows)
     const navigate = useNavigate()
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [tableRows, setTableRows] = useState([]);
-    const [selctedledgerId, setselctedledgerId] = useState('');
-    const totalAmount = tableRows.reduce((total, row) => total + (row.amount || 0), 0);
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
     const handleperticular = (index, newperticular) => {
-        console.log(newperticular, "hh");
         const updatedTableRows = [...tableRows];
         updatedTableRows[index].perticulars = newperticular
-        setTableRows(updatedTableRows);
+        settableRows(updatedTableRows);
 
 
     };
@@ -44,33 +42,52 @@ const Expensepage = ({ ledgerdetails, VoucherNumber }) => {
         return formattedDate;
     }
 
+    const handleamountChange = (index, newamount) => {
+        const updatedTableRows = [...tableRows];
+        updatedTableRows[index].amount = Number(newamount);
+        settableRows(updatedTableRows);
 
-    const handleAddRow = () => {
-        setTableRows((prevRows) => [
-            ...prevRows,
-            {
-                perticulars: '',
-                amount: '',
-            },
-        ]);
-    };
-
+    }
     const handleledgerChange = (e) => {
         const selectedledgerId = e.target.value;
         setselctedledgerId(selectedledgerId);
     };
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
 
-    const handleDeleteRow = (index) => {
-        setTableRows((prevRows) => prevRows.filter((_, i) => i !== index));
+    const handleAddRow = () => {
+        const newRow = {
+            _id:tableRows.length+1,
+            perticulars: '',
+            amount: '',
+        };
+
+        settableRows([...tableRows, newRow]);
+
     };
 
 
-    const handleamountChange = (index, newamount) => {
-        const updatedTableRows = [...tableRows];
-        updatedTableRows[index].amount = Number(newamount);
-        setTableRows(updatedTableRows);
+    // Function to calculate the total amount
+    const calculateTotalAmount = () => {
+        let total = 0;
+        for (const row of tableRows) {
+            total += row.amount || 0;
+        }
+        return total;
+    };
 
-    }
+    // Update the total amount whenever the tableRows change
+    useEffect(() => {
+        const total = calculateTotalAmount();
+        setupdatedtotalamount(total);
+    }, [tableRows]);
+
+    const handleDeleteRow = (index) => {
+        const updatedRows = [...tableRows];
+        updatedRows.splice(index, 1);
+        settableRows(updatedRows);
+    };
 
     const handleSave = async () => {
         if (!selctedledgerId || selctedledgerId.trim() === "") {
@@ -93,32 +110,30 @@ const Expensepage = ({ ledgerdetails, VoucherNumber }) => {
 
 
         const dataToSave = {
+            _id: expensedata._id,
             selectedDate: selectedDate,
             date: formatDate(selectedDate),
             selctedledgerId: selctedledgerId,
-            VoucherNumber:VoucherNumber,
+            VoucherNumber: expensedata?.VoucherNumber,
             tableRows: tableRows,
-           
-            totalAmount:totalAmount,
+
+            totalAmount: updatedtotalamount,
         };
-console.log(dataToSave);
-        // Use 'dataToSave' to save or process the data as needed
-        // Here you can save the data to your backend or do whatever you need with it
-        const response = await AddExpensedata(dataToSave);
+        const response = await Editexpensedata(dataToSave);
         if (response.success) {
-            toast.success('expense saved successfully!', {
+            toast.success('expense edited successfully!', {
                 hideProgressBar: true,
             });
             navigate('/expensedetails')
         }else{
-            toast.error("expense Not added ")
+            toast.error("expense Not edited ")
         }
         // Add your logic to save the data or perform other actions
 
         // Example: Clear the form after saving
-        setSelectedDate(new Date());
-        setselctedledgerId('');
-        setTableRows([]);
+        // setSelectedDate(new Date());
+        // setselctedledgerId('');
+        // settableRows([]);
         // ... (clear other states)
 
     };
@@ -143,7 +158,8 @@ console.log(dataToSave);
                             </div>
                             <div className="date-input mt-3 mt-md-0">
                                 &nbsp;&nbsp; <span className="fw-bold"> Date:</span>&nbsp; &nbsp; <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat="dd/MM/yyyy" placeholderText="Select a date" className='datepicker form-control' /><br /><br />
-                                <b className='ms-5'> Voucher NO:  {VoucherNumber}</b>
+                                <b className='ms-5'> Voucher NO: {expensedata?.VoucherNumber ? expensedata.VoucherNumber : ''}</b>
+
                             </div>
                         </div>
 
@@ -159,7 +175,9 @@ console.log(dataToSave);
                                         <span className="text-muted fw-bold">Payment To</span>
                                         <select
                                             className="select form-select mt-1"
+                                            value={selctedledgerId}
                                             onChange={handleledgerChange}
+
 
                                         >
                                             <option value="">Select</option>
@@ -171,6 +189,7 @@ console.log(dataToSave);
                                                     </option>
                                                 ))}
 
+
                                         </select>
                                     </div>
 
@@ -178,7 +197,17 @@ console.log(dataToSave);
                             </MDBTypography>
                         </MDBCol>
                     </MDBRow>
-
+                    {tableRows.length === 0 && (
+                        <div className="my-2 mx-1 d-flex justify-content-end">
+                            <button
+                                className='btn'
+                                size="sm"
+                                onClick={handleAddRow}
+                            >
+                                <MDBIcon style={{ color: 'green' }} fas icon="plus-circle" />
+                            </button>
+                        </div>
+                    )}
                     <MDBRow className="my-2 mx-1 justify-content-center">
                         <MDBCol lg="12" className="table-responsive">
                             <MDBTable striped borderless>
@@ -206,7 +235,7 @@ console.log(dataToSave);
 
                                 <MDBTableBody style={{ justifyItems: 'center' }}>
                                     {tableRows.map((row, index) => (
-                                        <tr key={index}>
+                                        <tr key={index} >
                                             <td>{index + 1}</td>
                                             <td className="p-2">
                                                 <div className="input-group">
@@ -223,6 +252,7 @@ console.log(dataToSave);
                                                 <div className="input-group">
                                                     <input
                                                         type="number"
+
                                                         value={row.amount ? row.amount : ''}
                                                         onChange={(e) => handleamountChange(index, e.target.value)}
                                                         className="form-control"
@@ -235,6 +265,7 @@ console.log(dataToSave);
                                                     className="btn"
                                                     size="sm"
                                                     onClick={() => handleDeleteRow(index)}
+
                                                 >
                                                     <MDBIcon style={{ color: 'red' }} fas icon="trash-alt" />
                                                 </button>
@@ -249,13 +280,14 @@ console.log(dataToSave);
                                                 </button>
                                             </td>
                                         </tr>
+
                                     ))}
-                                    {tableRows.length === 0 && (
-                                        setTableRows(prevRows => [...prevRows, {
+                                    {/* {tableRows.length === 0 && (
+                                        settableRows(prevRows => [...prevRows, {
                                             perticulars: '',
                                             amount: '',
                                         }])
-                                    )}
+                                    )} */}
                                 </MDBTableBody>
 
                             </MDBTable>
@@ -276,7 +308,7 @@ console.log(dataToSave);
                             </MDBTypography> */}
                             <p className="text-black float-start">
                                 <span className="text-black me-3">Total Amount</span>
-                                <span style={{ fontSize: "25px" }}>₹{totalAmount}</span>
+                                <span style={{ fontSize: "25px" }}>₹{updatedtotalamount}</span>
                             </p>
                         </MDBCol>
                     </MDBRow>
@@ -303,7 +335,7 @@ console.log(dataToSave);
                 </MDBCardBody>
             </MDBCard>
         </MDBContainer>
-    );
-};
+    )
+}
 
-export default Expensepage;
+export default Expenseeditpage

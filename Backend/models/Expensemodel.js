@@ -26,6 +26,10 @@ const expenseSchema = new mongoose.Schema({
       },
     tableRows: [
         {
+           _id: {
+                type: mongoose.Schema.Types.Mixed,
+                required: true,
+              },
             amount: {
                 type: Number,
                 required: true,
@@ -40,7 +44,9 @@ const expenseSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-});
+},{
+    timestamps: true,
+  });
 
 // Create a model from the schema
 const Expense = mongoose.model('Expense', expenseSchema);

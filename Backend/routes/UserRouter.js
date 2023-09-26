@@ -53,5 +53,8 @@ router.get('/currentledger',userAuthMid,Ledgercontroller.GetnotdeletedLedger)
 router.post('/expense',userAuthMid,Expensecontroller.AddExpense)
 router.get('/expense',userAuthMid,Expensecontroller.GetAllExpense)
 router.get('/currentexpense',userAuthMid,Expensecontroller.Getnotdeletedexpense)
+router.delete('/expense/:id',userAuthMid,Expensecontroller.Deleteexpense)
+router.get('/expense/:id',userAuthMid,Expensecontroller.GetSelectedexpense)
+router.patch('/expense/:id',userAuthMid,Expensecontroller.Editexpense)
 
 export default router;
