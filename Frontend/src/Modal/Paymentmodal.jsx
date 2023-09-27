@@ -3,7 +3,6 @@ import React from 'react';
 import { toast } from 'react-toastify';
 const PaymentModal = ({ showeditModal, setShoweditModal,currentdatas }) => {
     const totalAmount = currentdatas.reduce((total, item) => total + item.currentpaid, 0);
-console.log(currentdatas,"hhhhh");
 
 const formatTime = (date) => {
     const options = { hour: 'numeric', minute: 'numeric', hour12: true };

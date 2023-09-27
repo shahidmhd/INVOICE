@@ -13,7 +13,6 @@ export const LoginUser = async (payload) => {
 
 export const changepassword = async (payload) => {
     try {
-        console.log(payload);
         const response = await instance.post('/api/users/changepassword', payload);
         return response.data
     } catch (err) {

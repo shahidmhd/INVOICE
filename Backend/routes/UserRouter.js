@@ -8,6 +8,7 @@ import userAuthMid from '../Middlewear/Authmiddlewear.js';
 import Estimatecontrollers from '../controller/Estimatecontroller.js'
 import Ledgercontroller from '../controller/Ledgercontroller.js';
 import Expensecontroller from '../controller/Expensecontroller.js';
+import Bankcontroller from '../controller/Bankcontroller.js';
 
 router.post('/login',usercontroller.LoginUser)
 router.post('/changepassword',usercontroller.changepassword)
@@ -57,4 +58,9 @@ router.delete('/expense/:id',userAuthMid,Expensecontroller.Deleteexpense)
 router.get('/expense/:id',userAuthMid,Expensecontroller.GetSelectedexpense)
 router.patch('/expense/:id',userAuthMid,Expensecontroller.Editexpense)
 
+
+router.post('/bank',userAuthMid,Bankcontroller.AddBank)
+router.get('/bank',userAuthMid,Bankcontroller.GetAllbanks)
+router.patch('/bank/:id',userAuthMid,Bankcontroller.EditBank)
+router.delete('/bank/:id',userAuthMid,Bankcontroller.DeleteBank)
 export default router;

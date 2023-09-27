@@ -16,15 +16,9 @@ import AddTerms from '../../Modal/AddTerms';
 
 const Sidebar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [modalOpen, setmodal] = useState(false);
-  const [modalOpenterms, setmodalOpenterms] = useState(false);
-  const togglemodal = () => {
-    setmodal(!modalOpen)
-  }
+  
 
-  const togglemodalterms = () => {
-    setmodalOpenterms(!modalOpenterms)
-  }
+ 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -80,6 +74,10 @@ const handleexpenseDetailsClick=()=>{
   navigate('/expensedetails')
 }
 
+
+const handlebank=()=>{
+  navigate('/bankdetails')
+}
   return (
     <div style={{ height: '100vh', position: 'sticky', top: 0 }}>
       <CDBSidebar>
@@ -123,11 +121,8 @@ const handleexpenseDetailsClick=()=>{
             <div>
             {dropdownOpen && (
                 <>
-                  <CDBSidebarMenuItem icon="university" iconType="solid" onClick={togglemodal} >
-                    Add Bank Account
-                  </CDBSidebarMenuItem>
-                  <CDBSidebarMenuItem icon="plus" iconType="solid" onClick={togglemodalterms} >
-                    Terms &condition
+                  <CDBSidebarMenuItem icon="university" iconType="solid"onClick={handlebank}  >
+                    Add Bank Details
                   </CDBSidebarMenuItem>
                   <CDBSidebarMenuItem icon="lock" iconType="solid" onClick={handlechangepassword}>
                     change password
@@ -151,8 +146,7 @@ const handleexpenseDetailsClick=()=>{
         </div>
 
       </CDBSidebar>
-      {modalOpen && <Addbank modalOpen={modalOpen} setmodal={setmodal} />}
-      {modalOpenterms && <AddTerms modalOpenterms={modalOpenterms} setmodalOpenterms={setmodalOpenterms} />}
+     
     </div>
   );
 };

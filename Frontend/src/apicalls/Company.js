@@ -2,7 +2,6 @@ import instance from "./axiosinstance";
 
 export const AddCompanydata = async (payload) => {
     try {
-        console.log(payload);
         const response = await instance.post('/api/users/company', payload);
         return response.data
     } catch (err) {
@@ -29,7 +28,6 @@ export const getnotdeletedallcompanies = async () => {
 
 export const editcompany = async (payload) => {
     try {
-        console.log(payload._id);
         const response = await instance.patch(`/api/users/company/${payload._id}`, payload);
         return response.data
     } catch (err) {

@@ -96,7 +96,6 @@ const Cashbookpage = ({ invoices, expense }) => {
     currentMergedObject.items.push(item);
   });
 
-  console.log(mergedData);
 
 
   const data = () => {

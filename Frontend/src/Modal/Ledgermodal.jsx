@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { AddLedgerdata } from '../apicalls/Ledger';
 import { toast } from 'react-toastify';
 
-const Ledgermodal = ({ showModal, setShowModal,render, setrender }) => {
+const Ledgermodal = ({ showModal, setShowModal, render, setrender }) => {
 
     const {
         handleSubmit,
@@ -13,7 +13,7 @@ const Ledgermodal = ({ showModal, setShowModal,render, setrender }) => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        data.balance=Number(data.balance)
+        data.balance = Number(data.balance)
         const response = await AddLedgerdata(data)
         if (response.success) {
             toast.success(response.message)
@@ -83,6 +83,33 @@ const Ledgermodal = ({ showModal, setShowModal,render, setrender }) => {
                                 />
                             </div>
 
+                            {/* dropdown */}
+                            <div className='form-outline mb-4'>
+                                <Controller
+                                    name='type'
+                                    control={control}
+                                    rules={{
+                                        required: 'type is required',
+                                    }}
+                                    render={({ field }) => (
+                                        <select
+                                            {...field}
+                                            id='type'
+                                            className={`form-select ${errors.type ? 'is-invalid' : ''}`}
+                                            
+                                        >
+                                            <option value=''>Select Balance Type</option>
+                                            <option value='Cr'>Cr</option>
+                                            <option value='Dr'>Dr</option>
+                                        </select>
+                                    )}
+                                />
+                                {errors.type && (
+                                    <div className='invalid-feedback'>{errors.type.message}</div>
+                                )}
+                            </div>
+
+                            {/*  */}
 
 
 
@@ -111,7 +138,7 @@ const Ledgermodal = ({ showModal, setShowModal,render, setrender }) => {
                                         e.target.style.color = 'white'; // Revert text color back to white
                                     }}
                                 >
-                                submit
+                                    submit
                                 </button>
                             </div>
 

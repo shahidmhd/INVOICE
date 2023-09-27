@@ -3,7 +3,7 @@ import Expense from '../models/Expensemodel.js'
 export default {
     AddExpense: async (req, res) => {
         try {
-            console.log(req.body);
+       
             // Create a new Company instance with the extracted data
             const ExpenseData = req.body;
             ExpenseData.isdeleted = false

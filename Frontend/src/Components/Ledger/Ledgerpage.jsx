@@ -56,7 +56,7 @@ const Ledgerpage = ({ ledger, render, setrender }) => {
             rows: ledger.map((item, index) => ({
                 No: index + 1,
                 Name: item?.Name,
-                Balance: item?.balance,
+                Balance: `${item?.balance} ${item?.type}`,
                 editButton: (
                   <button
                   onClick={() => handleEditClick(item)}

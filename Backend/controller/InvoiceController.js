@@ -105,7 +105,6 @@ export default {
     },
     EditINVOICE: async (req, res) => {
         try {
-            console.log(req.body,"gggg");
             const { id } = req.params;
             
 

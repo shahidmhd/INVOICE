@@ -1,40 +1,58 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { AddBankdata } from '../apicalls/Bank';
-const Addbank = ({ showModal, setShowModal,render,setrender }) => {
+import { editbank } from '../apicalls/Bank';
 
-
+const Editbank = ({ showeditModal, setShoweditModal, selectedaccount, render, setrender }) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+    setValue,
+  } = useForm({
+    defaultValues: {
+        Accountno: selectedaccount?.Accountno || '',
+        BankName: selectedaccount?.BankName || '',
+        ifsccode: selectedaccount?.ifsccode || '',
+        person: selectedaccount?.person || '',
+        _id: selectedaccount?._id || '',
+    },
+  });
 
   const onSubmit = async (data) => {
-    const response = await AddBankdata(data)
+    const response = await editbank(data)
     if (response.success) {
-        toast.success(response.message)
-        setShowModal(false)
-        setrender(!render)
-
+      toast.success(response.message)
+      setShoweditModal(false)
+      setrender(!render)
     } else {
-        setShowModal(false)
-        setrender(!render)
-        toast.error(response.message)
+      toast.error(response.message)
+      setShoweditModal(false)
+      setrender(!render)
     }
+
 
   };
 
+  // Set form field values when the Company prop changes
+  useEffect(() => {
+    setValue('_id', selectedaccount?._id || '');
+    setValue('Accountno', selectedaccount?.Accountno || '',);
+    setValue('BankName', selectedaccount?.BankName || '',);
+    setValue('ifsccode', selectedaccount?.ifsccode || '',);
+    setValue('person',selectedaccount?.person || '',);
+   
+  }, [selectedaccount]);
+
   return (
-    <div className={`modal ${showModal ? 'show' : ''}`} tabIndex='-1' style={{ display: showModal ? 'block' : 'none' }}>
+    <div className={`modal ${showeditModal ? 'show' : ''}`} tabIndex='-1' style={{ display: showeditModal ? 'block' : 'none' }}>
       <div className='modal-dialog'>
         <div className='modal-content'>
           <div className='modal-header' style={{ backgroundColor: 'black' }}>
             <h5 className='modal-title' style={{ color: 'white' }}>
               Accout Details
             </h5>
-            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' style={{ color: 'white', borderColor: 'white' }} onClick={() => setShowModal(false)}><i className='fas fa-times'></i></button>
+            <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' style={{ color: 'white', borderColor: 'white' }} onClick={() => setShoweditModal(false)}><i className='fas fa-times'></i></button>
           </div>
           <div className='modal-body'>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -145,4 +163,4 @@ const Addbank = ({ showModal, setShowModal,render,setrender }) => {
   );
 };
 
-export default Addbank;
+export default Editbank;

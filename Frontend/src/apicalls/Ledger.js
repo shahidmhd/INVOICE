@@ -2,7 +2,6 @@ import instance from "./axiosinstance";
 
 export const AddLedgerdata = async (payload) => {
     try {
-        console.log(payload);
         const response = await instance.post('/api/users/ledger', payload);
         return response.data
     } catch (err) {

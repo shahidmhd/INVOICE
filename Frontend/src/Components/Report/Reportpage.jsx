@@ -168,11 +168,6 @@ const Reportpage = ({ invoiceData, companydetails, serviceDetails }) => {
     setfilterinvoiceDatas(updatedInvoiceDatas);
 
 
-
-
-    // const response = await fetchserviceinvoices(event.target.value)
-    // setinvoiceDatas(response.matchingInvoices)
-    // console.log(response.matchingInvoices, "service matched datas");
   };
 
 

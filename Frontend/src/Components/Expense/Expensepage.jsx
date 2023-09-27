@@ -27,7 +27,6 @@ const Expensepage = ({ ledgerdetails, VoucherNumber }) => {
         setSelectedDate(date);
     };
     const handleperticular = (index, newperticular) => {
-        console.log(newperticular, "hh");
         const updatedTableRows = [...tableRows];
         updatedTableRows[index].perticulars = newperticular
         setTableRows(updatedTableRows);
@@ -102,7 +101,7 @@ const Expensepage = ({ ledgerdetails, VoucherNumber }) => {
            
             totalAmount:totalAmount,
         };
-console.log(dataToSave);
+
         // Use 'dataToSave' to save or process the data as needed
         // Here you can save the data to your backend or do whatever you need with it
         const response = await AddExpensedata(dataToSave);

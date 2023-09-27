@@ -44,7 +44,7 @@ export default {
     EditLedger: async (req, res) => {
         try {
             const { id } = req.params;
-            const {Name,balance } = req.body;
+            const {Name,balance,type} = req.body;
 
             // Find the company with the given ID
             const company = await Ledger.findById(id);
@@ -62,7 +62,7 @@ export default {
             // Update the company with the new data
             await Ledger.findByIdAndUpdate(
                 { _id: id },
-                {Name,balance, isdeleted: false },
+                {Name,balance,type, isdeleted: false },
                 { new: true }
             );
 

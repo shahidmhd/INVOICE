@@ -28,7 +28,7 @@ export const deleteservice = async (id) => {
 }
 export const editservice = async (payload) => {
     try {
-        console.log(payload._id);
+
         const response = await instance.post(`/api/users/service/${payload._id}`, payload);
         return response.data
     } catch (err) {
