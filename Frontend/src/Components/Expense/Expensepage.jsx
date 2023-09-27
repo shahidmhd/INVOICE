@@ -49,6 +49,7 @@ const Expensepage = ({ ledgerdetails, VoucherNumber }) => {
         setTableRows((prevRows) => [
             ...prevRows,
             {
+                _id:'',
                 perticulars: '',
                 amount: '',
             },
@@ -252,6 +253,7 @@ console.log(dataToSave);
                                     ))}
                                     {tableRows.length === 0 && (
                                         setTableRows(prevRows => [...prevRows, {
+                                            _id:'',
                                             perticulars: '',
                                             amount: '',
                                         }])
