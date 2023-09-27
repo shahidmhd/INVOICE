@@ -128,13 +128,6 @@ const Expenseeditpage = ({ expensedata, ledgerdetails }) => {
         }else{
             toast.error("expense Not edited ")
         }
-        // Add your logic to save the data or perform other actions
-
-        // Example: Clear the form after saving
-        // setSelectedDate(new Date());
-        // setselctedledgerId('');
-        // settableRows([]);
-        // ... (clear other states)
 
     };
 

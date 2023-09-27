@@ -22,8 +22,13 @@ const Expensedetailpage = ({ expense, render, setrender }) => {
         return {
             columns: [
                 {
-                    label: 'VoucherNo',
+                    label: 'No',
                     field: 'No',
+                    width: 100,
+                },
+                {
+                    label: 'VoucherNo',
+                    field: 'VoucherNo',
                     width: 100,
                 },
                 {
@@ -54,7 +59,8 @@ const Expensedetailpage = ({ expense, render, setrender }) => {
                 },
             ],
             rows: expense.map((item, index) => ({
-                No: index + 1,
+                No:index+1,
+                VoucherNo: item?.VoucherNumber,
                 Date: item?.date,
                 Payed: item.selctedledgerId && item.selctedledgerId.Name ? item.selctedledgerId.Name : 'company Deleted',
                 totalamount: item?.totalAmount,

@@ -24,6 +24,7 @@ import Ledger from './Pages/Ledger';
 import Expense from './Pages/Expense';
 import ExpenseDetail from './Pages/ExpenseDetail';
 import Expenseedit from './Pages/Expenseedit';
+import Cashbook from './Pages/Cashbook';
 
 const Company = React.lazy(() => import('./Pages/Company'))
 const Service = React.lazy(() => import('./Pages/Service'))
@@ -178,6 +179,10 @@ if (hasTokenExpired) {
           <Route
             path='/expense/:id'
             element={token ? <Expenseedit /> : <Navigate to={'/login'} />}
+          />
+           <Route
+            path='/cashbook'
+            element={token ? <Cashbook/> : <Navigate to={'/login'} />}
           />
           <Route path="*" element={<Notfound />} />
         </Routes>

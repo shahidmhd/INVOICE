@@ -49,11 +49,6 @@ const Sidebar = () => {
     navigate('/Service')
   };
 
-  const handleInvoiceClick = () => {
-    // Code to handle click on "Invoice" menu item
-    navigate('/invoice')
-  };
-
   const handleInvoictableclick = () => {
     navigate('/table')
   }
@@ -67,10 +62,10 @@ const Sidebar = () => {
     navigate('/change-password')
   }
 
+const handlecashbookClick=()=>{
+  navigate('/cashbook')
+}
 
-  const handleEstimateclick = () => {
-    navigate('/estimate')
-  }
 
   const handleEstimateDetailsclick = () => {
     navigate('/estimatedetails')
@@ -80,9 +75,6 @@ const Sidebar = () => {
     navigate('/ledger')
   }
 
-  const handleexpenseClick=()=>{
-    navigate('/expense')
-  }
 
 const handleexpenseDetailsClick=()=>{
   navigate('/expensedetails')
@@ -102,29 +94,24 @@ const handleexpenseDetailsClick=()=>{
             <CDBSidebarMenuItem icon="th-large" onClick={handleServicesClick}>
               Services
             </CDBSidebarMenuItem>
-            <CDBSidebarMenuItem icon="file-invoice" iconType="solid" onClick={handleInvoiceClick}>
-              Create Invoice
-            </CDBSidebarMenuItem>
             <CDBSidebarMenuItem icon="chart-bar" iconType="solid" onClick={handleInvoictableclick}>
-              Invoice Details
+              Invoice
             </CDBSidebarMenuItem>
             <CDBSidebarMenuItem icon="th-large" onClick={handleReportclick}>
               Invoice Report
             </CDBSidebarMenuItem>
-            <CDBSidebarMenuItem icon="th-large" onClick={handleEstimateclick}>
-              Estimate
-            </CDBSidebarMenuItem>
+           
             <CDBSidebarMenuItem icon="th-large" onClick={handleEstimateDetailsclick}>
-              Estimate Details
+              Estimate
             </CDBSidebarMenuItem>
             <CDBSidebarMenuItem icon="th-large" onClick={handleledgerClick}>
               ledger
             </CDBSidebarMenuItem>
-            <CDBSidebarMenuItem icon="th-large" onClick={handleexpenseClick}>
+            <CDBSidebarMenuItem icon="th-large" onClick={handleexpenseDetailsClick}>
               Expense
             </CDBSidebarMenuItem>
-            <CDBSidebarMenuItem icon="th-large" onClick={handleexpenseDetailsClick}>
-              Expense Details
+            <CDBSidebarMenuItem icon="th-large"onClick={handlecashbookClick} >
+              cashbook
             </CDBSidebarMenuItem>
           </CDBSidebarMenu>
         </CDBSidebarContent>
@@ -134,11 +121,7 @@ const handleexpenseDetailsClick=()=>{
         <div className="sidebar-btn-wrapper" style={{ padding: '20px 5px' }}>
           <CDBSidebarMenu>
             <div>
-              <CDBSidebarMenuItem icon="cog" iconType="solid" onClick={toggleDropdown}>
-                Settings
-              </CDBSidebarMenuItem>
-
-              {dropdownOpen && (
+            {dropdownOpen && (
                 <>
                   <CDBSidebarMenuItem icon="university" iconType="solid" onClick={togglemodal} >
                     Add Bank Account
@@ -155,6 +138,11 @@ const handleexpenseDetailsClick=()=>{
                 </>
 
               )}
+              <CDBSidebarMenuItem icon="cog" iconType="solid" onClick={toggleDropdown}>
+                Settings
+              </CDBSidebarMenuItem>
+
+             
             </div>
             {/* <CDBSidebarMenuItem icon="credit-card" iconType="solid" onClick={handlelogout} >
               logout
