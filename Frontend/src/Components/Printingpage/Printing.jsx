@@ -2,7 +2,8 @@ import React from 'react';
 import { useReactToPrint } from 'react-to-print';
 
 
-const Printing = ({ invoiceData }) => {
+const Printing = ({ invoiceData, bankData }) => {
+  console.log(bankData, "kk");
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, '0');
@@ -18,58 +19,58 @@ const Printing = ({ invoiceData }) => {
     content: () => componentRef.current,
   });
 
-   // Function to convert a number into words
-   const numberToWords = (num) => {
-    const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
-    const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
-    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+  //  // Function to convert a number into words
+  //  const numberToWords = (num) => {
+  //   const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+  //   const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+  //   const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
-    if (num === 0) return 'Zero';
+  //   if (num === 0) return 'Zero';
 
-    if (num < 10) return units[num];
+  //   if (num < 10) return units[num];
 
-    if (num < 20) return teens[num - 10];
+  //   if (num < 20) return teens[num - 10];
 
-    const digit1 = num % 10;
-    const digit10 = Math.floor((num / 10) % 10);
-    const digit100 = Math.floor((num / 100) % 10);
-    const digit1000 = Math.floor((num / 1000) % 10);
-    const digit10000 = Math.floor((num / 10000) % 10);
+  //   const digit1 = num % 10;
+  //   const digit10 = Math.floor((num / 10) % 10);
+  //   const digit100 = Math.floor((num / 100) % 10);
+  //   const digit1000 = Math.floor((num / 1000) % 10);
+  //   const digit10000 = Math.floor((num / 10000) % 10);
 
-    let result = '';
+  //   let result = '';
 
-    
-    if (digit10000 > 0) {
-      result += `${teens[digit10000]} Thousand `;
-    }
 
-   
-  if (digit1000 > 0 && digit10 !== 1) {
-    result += `${units[digit1000]} Thousand `;
-  }
+  //   if (digit10000 > 0) {
+  //     result += `${teens[digit10000]} Thousand `;
+  //   }
 
-    if (digit100 > 0) {
-      result += `${units[digit100]} Hundred `;
-    }
-    
 
-    if (digit10 > 0) {
-      if (digit10 > 1) {
-        result += `${tens[digit10]} `;
-      } else {
-        result += `${teens[num % 100 - 10]} Rupees`;
-        return result.trim(); // Return early for numbers between 10 and 19
-      }
-    }
+  // if (digit1000 > 0 && digit10 !== 1) {
+  //   result += `${units[digit1000]} Thousand `;
+  // }
 
-    if (digit1 > 0) {
-      result += `${units[digit1]} Rupees`;
-    }
+  //   if (digit100 > 0) {
+  //     result += `${units[digit100]} Hundred `;
+  //   }
 
-    return result.trim();
-  };
 
-  const totalAmountInWords = numberToWords(invoiceData?.totalAmount);
+  //   if (digit10 > 0) {
+  //     if (digit10 > 1) {
+  //       result += `${tens[digit10]} `;
+  //     } else {
+  //       result += `${teens[num % 100 - 10]} Rupees`;
+  //       return result.trim(); // Return early for numbers between 10 and 19
+  //     }
+  //   }
+
+  //   if (digit1 > 0) {
+  //     result += `${units[digit1]} Rupees`;
+  //   }
+
+  //   return result.trim();
+  // };
+
+  // const totalAmountInWords = numberToWords(invoiceData?.totalAmount);
 
 
   return (
@@ -243,7 +244,7 @@ const Printing = ({ invoiceData }) => {
                         </li>
                       </ul>
                       <p className="text-black mt-3 mt-md-0">
-                        <span className="text-black me-3 fw-bold" style={{ fontSize: '1.5em' }}>Total </span>
+                        <span className="text-black me-3 fw-bold" style={{ fontWeight: 'bold' }}>Total </span>
                         <span style={{ fontSize: '25px' }}>₹{invoiceData?.totalAmount}</span>
                       </p>
                     </div>
@@ -255,27 +256,28 @@ const Printing = ({ invoiceData }) => {
                   {/* <div className="col-xl-10">
                     <p>Thank you for your purchase</p>
                   </div> */}
-                  <div className="col-xl-10"><br />
+                  {/* <div className="col-xl-10"><br />
                     <p style={{ fontWeight: "bold" }}>Invoice Amount In Words</p>
                     <span>{totalAmountInWords}</span>
-                  </div>
+                  </div> */}
                   <div className="col-xl-7"><br />
                     <p style={{ fontWeight: "bold" }}>Terms and Conditions</p>
-                    <span> the t7yu sdbcsdh hvjdfv fdfvhdfvkdfv ndfkvjdfklvnfd dfvfdjkjdf fdnjkhfdjv jfdjkjvfdkjvfd jnfdjnfdkjbv dfbfdolkfd dfhhdfnvdf bhdfobdfbdfh d</span>
+                    <span> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span>
                   </div>
                   <div className="col-xl-12"><br />
                     <p style={{ fontWeight: "bold" }}>Bank details</p>
-                    Bank Name : HDFC BANK ,FORT KOCHI<br />
-                    BANK Account No :98090987654321<br />
-                    Bank IFSC code :HDFC0009488<br />
-                    Account holders name :WESTERN COMPUTERS AND SERVICES
+                    Bank Name: {bankData[0]?.BankName}<br />
+                    BANK Account No: {bankData[0]?.Accountno}<br />
+                    Bank IFSC code: {bankData[0]?.ifsccode}<br />
+                    Account holder's name: {bankData[0]?.person}
+
                   </div>
 
                   <div className="col-xl-12">
                     <div className="d-flex justify-content-between">
                       <p></p>
                       <div>
-                        <p>For : Cyenosure Enter the Technoverse</p><br/>
+                        <p>For : Cyenosure Enter the Technoverse</p><br />
                         <p>Authorized Signature</p>
                       </div>
                     </div>
