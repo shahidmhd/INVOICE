@@ -1,33 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Addterms } from '../apicalls/Terms';
 import { toast } from 'react-toastify';
+import { editterms } from '../apicalls/Terms';
 
-const AddTerms = ({ ShowtermsModal, setShowtermsModal ,render,setrender}) => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  
+
+const Editterms = ({ showtermseditModal, setShowtermseditModal, selectedterms, render, setrender }) => {
+  const {
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    register,
+    control,
+  } = useForm({
+    defaultValues: {
+        termsAndConditions: selectedterms?.termsAndConditions || '',
+      _id: selectedterms?._id || '',
+    },
+  });
+
   const onSubmit = async (data) => {
-    const response = await Addterms(data)
+    const response = await editterms(data); // You need to implement this editbank function
     if (response.success) {
-        toast.success(response.message)
-        setShowtermsModal(false);
-        setrender(!render)
-
+      toast.success(response.message);
+      setShowtermseditModal(false);
+      setrender(!render);
     } else {
-      setShowtermsModal(false);
-        setrender(!render)
-        toast.error(response.message)
+      toast.error(response.message);
+      setShowtermseditModal(false);
+      setrender(!render);
     }
-
-
   };
+
+  // Set form field values when the selectedaccount prop changes
+  useEffect(() => {
+    setValue('_id', selectedterms?._id || '');
+    setValue('termsAndConditions', selectedterms?.termsAndConditions || '');
+   
+  }, [selectedterms]);
 
   return (
     <div
-      className={`modal ${ShowtermsModal ? 'show' : ''}`}
+      className={`modal ${showtermseditModal ? 'show' : ''}`}
       tabIndex='-1'
       style={{
-        display: ShowtermsModal ? 'block' : 'none',
+        display: showtermseditModal ? 'block' : 'none',
         position: 'fixed',
         bottom: 0,
         left: 0,
@@ -38,7 +54,7 @@ const AddTerms = ({ ShowtermsModal, setShowtermsModal ,render,setrender}) => {
         <div className='modal-content'>
           <div className='modal-header' style={{ backgroundColor: 'black' }}>
             <h5 className='modal-title' style={{ color: 'white' }}>
-              Terms and condition
+              Edit Terms and Conditions
             </h5>
             <button
               type='button'
@@ -46,7 +62,7 @@ const AddTerms = ({ ShowtermsModal, setShowtermsModal ,render,setrender}) => {
               data-bs-dismiss='modal'
               aria-label='Close'
               style={{ color: 'white', borderColor: 'white' }}
-              onClick={() => setShowtermsModal(false)}
+              onClick={() => setShowtermseditModal(false)}
             >
               <i className='fas fa-times'></i>
             </button>
@@ -101,5 +117,4 @@ const AddTerms = ({ ShowtermsModal, setShowtermsModal ,render,setrender}) => {
   );
 };
 
-export default AddTerms;
-
+export default Editterms;

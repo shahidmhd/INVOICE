@@ -9,6 +9,7 @@ import Estimatecontrollers from '../controller/Estimatecontroller.js'
 import Ledgercontroller from '../controller/Ledgercontroller.js';
 import Expensecontroller from '../controller/Expensecontroller.js';
 import Bankcontroller from '../controller/Bankcontroller.js';
+import Termscontroller from '../controller/Termscontroller.js';
 
 router.post('/login',usercontroller.LoginUser)
 router.post('/changepassword',usercontroller.changepassword)
@@ -63,4 +64,10 @@ router.post('/bank',userAuthMid,Bankcontroller.AddBank)
 router.get('/bank',userAuthMid,Bankcontroller.GetAllbanks)
 router.patch('/bank/:id',userAuthMid,Bankcontroller.EditBank)
 router.delete('/bank/:id',userAuthMid,Bankcontroller.DeleteBank)
+
+router.post('/terms',userAuthMid,Termscontroller.AddTerms)
+router.get('/terms',userAuthMid,Termscontroller.GetAllTerms)
+router.delete('/terms/:id',userAuthMid,Termscontroller.DeleteTerms)
+router.patch('/terms/:id',userAuthMid,Termscontroller.EditTerms)
+
 export default router;
