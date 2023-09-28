@@ -2,8 +2,7 @@ import React from 'react';
 import { useReactToPrint } from 'react-to-print';
 
 
-const Printing = ({ invoiceData, bankData }) => {
-  console.log(bankData, "kk");
+const Printing = ({ invoiceData, bankData, termsData }) => {
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, '0');
@@ -228,7 +227,7 @@ const Printing = ({ invoiceData, bankData }) => {
                   </div>
                 </div>
                 {/* resposive */}
-
+                {/*  */}
                 <div className="row">
                   <div className="col-md-8">
                     <p className="ms-3"></p>
@@ -237,19 +236,22 @@ const Printing = ({ invoiceData, bankData }) => {
                     <div className="ms-md-auto">
                       <ul className="list-unstyled mb-0">
                         <li className="text-muted">
-                          <span className="text-black me-4">SubTotal</span>₹{invoiceData?.subtotal}
+                          <span className="text-black me-5">SubTotal</span>
+                          <span className="float-end me-5">₹{invoiceData?.subtotal}</span>
                         </li>
                         <li className="text-muted mt-2">
-                          <span className="text-black me-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGST</span>₹{invoiceData?.gst18}
+                          <span className="text-black me-5">IGST</span>
+                          <span className="float-end me-5">₹{invoiceData?.gst18}</span>
                         </li>
                       </ul>
                       <p className="text-black mt-3 mt-md-0">
-                        <span className="text-black me-3 fw-bold" style={{ fontWeight: 'bold' }}>Total </span>
-                        <span style={{ fontSize: '25px' }}>₹{invoiceData?.totalAmount}</span>
+                        <span className="text-black me-3 fw-bold" style={{ fontWeight: 'bold' }}>Total</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style={{ fontSize: '25px' }}>₹{invoiceData?.totalAmount}</span>
                       </p>
                     </div>
                   </div>
                 </div>
+                {/*  */}
 
                 <hr />
                 <div className="row">
@@ -262,8 +264,13 @@ const Printing = ({ invoiceData, bankData }) => {
                   </div> */}
                   <div className="col-xl-7"><br />
                     <p style={{ fontWeight: "bold" }}>Terms and Conditions</p>
-                    <span> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span>
+                    {termsData.length > 0 ? (
+                      <span>{termsData[0]?.termsAndConditions}</span>
+                    ) : (
+                      <span>No terms and conditions available.</span>
+                    )}
                   </div>
+
                   <div className="col-xl-12"><br />
                     <p style={{ fontWeight: "bold" }}>Bank details</p>
                     Bank Name: {bankData[0]?.BankName}<br />
@@ -277,7 +284,7 @@ const Printing = ({ invoiceData, bankData }) => {
                     <div className="d-flex justify-content-between">
                       <p></p>
                       <div>
-                        <p>For : Cyenosure Enter the Technoverse</p><br />
+                        <p className='me-5'>For : Cyenosure Enter the Technoverse</p><br />
                         <p>Authorized Signature</p>
                       </div>
                     </div>

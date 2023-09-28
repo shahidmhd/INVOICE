@@ -5,18 +5,22 @@ import { useParams } from 'react-router-dom';
 import { getselectedinvioce } from '../apicalls/Invoice';
 import Loading from './Loading';
 import { getallbank } from '../apicalls/Bank';
+import { getallterms } from '../apicalls/Terms';
 
 const Print = () => {
   const { id } = useParams();
   const [invoiceData, setInvoiceData] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Add a loading state
   const [bankData, setbankData] = useState(null);
+  const [termsData, settermsData] = useState(null);
 
   useEffect(() => {
     const fetchInvoiceData = async () => {
       try {
         const response = await getselectedinvioce(id);
         const account=await getallbank()
+        const terms=await getallterms()
+        settermsData(terms.Data)
         setbankData(account.Data)
         setInvoiceData(response.Data);
         setIsLoading(false); // Set loading to false once data is fetched
@@ -35,7 +39,7 @@ const Print = () => {
       <Sidebar />
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
         {isLoading ? <Loading /> : null}
-        {!isLoading&&<Printing invoiceData={invoiceData} bankData={bankData} />}
+        {!isLoading&&<Printing invoiceData={invoiceData} bankData={bankData} termsData={termsData} />}
       </div>
     </div>
   </>
