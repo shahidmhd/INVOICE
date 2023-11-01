@@ -126,14 +126,14 @@ const Printing = ({ invoiceData, bankData, termsData }) => {
                   </div>
                 </div>
 
-                <div className="row">
+                {/* <div className="row">
                   <div className="col-xl-8">
                     <ul className="list-unstyled">
                       <li style={{ color: 'black' }}>
                         <span style={{ fontSize: "1em", fontWeight: "bold", textAlign: 'right' }}>Bill To: </span><br /><span className="text-muted">  {invoiceData?.selectedCompanyId?.companyname ? invoiceData.selectedCompanyId.companyname : ''}</span>
                       </li>
                       <li style={{ color: 'black' }}>Address: <span className="text-muted ">{invoiceData?.selectedCompanyId?.address ? invoiceData.selectedCompanyId.address : ''}</span></li>
-                      <li style={{ color: 'black' }}> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span className="text-muted ">{invoiceData?.selectedCompanyId?.district ? invoiceData.selectedCompanyId.district : ''} - {invoiceData?.selectedCompanyId?.pincode ? invoiceData.selectedCompanyId.pincode : ''}</span></li>
+                      <li style={{ color: 'black' }}><span className="text-muted ">{invoiceData?.selectedCompanyId?.district ? invoiceData.selectedCompanyId.district : ''} - {invoiceData?.selectedCompanyId?.pincode ? invoiceData.selectedCompanyId.pincode : ''}</span></li>
 
                     </ul>
                   </div>
@@ -149,16 +149,39 @@ const Printing = ({ invoiceData, bankData, termsData }) => {
                         <span className="fw-bold">Due Date&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</span>{invoiceData?.Duedate}
                       </li>
 
-                      {/* <li className="text-muted">
-                        <span className="fw-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</span>{invoiceData?.paidamount?invoiceData.paidamount:0}
-                      </li> */}
-                      {/* <li className="text-muted">
-                        <span className="fw-bold">Balance Due&nbsp;:&nbsp;</span>{invoiceData?.Dueamount ? invoiceData.Dueamount:invoiceData?.totalAmount-invoiceData?.paidamount}
-                      </li> */}
-
                     </ul>
                   </div>
-                </div>
+                </div> */}
+
+
+<div className="row">
+  <div className="col-xl-8 col-lg-8 col-md-7 col-sm-12">
+    <ul className="list-unstyled">
+      <li style={{ color: 'black' }}>
+        <span style={{ fontSize: "1em", fontWeight: "bold", textAlign: 'right' }}>Bill To: </span>
+        <span className="text-muted">{invoiceData?.selectedCompanyId?.companyname ? invoiceData.selectedCompanyId.companyname : ''}</span>
+      </li>
+      <li style={{ color: 'black' }}>Address: <span className="text-muted">{invoiceData?.selectedCompanyId?.address ? invoiceData.selectedCompanyId.address : ''}</span></li>
+      <li className="text-muted">
+        {invoiceData?.selectedCompanyId?.district ? invoiceData.selectedCompanyId.district : ''} - {invoiceData?.selectedCompanyId?.pincode ? invoiceData.selectedCompanyId.pincode : ''}
+      </li>
+    </ul>
+  </div>
+  <div className="col-xl-4 col-lg-4 col-md-5 col-sm-12">
+    <ul className="list-unstyled">
+      <li className="text-muted" style={{ textAlign: 'right' }}>
+        <span className="fw-bold">Invoice No: </span>{invoiceData?.invoiceNumber}
+      </li>
+      <li className="text-muted" style={{ textAlign: 'right' }}>
+        <span className="fw-bold">Date: </span>{formatDate(invoiceData?.selectedDate)}
+      </li>
+      <li className="text-muted" style={{ textAlign: 'right' }}>
+        <span className="fw-bold">Due Date: </span>{invoiceData?.Duedate}
+      </li>
+    </ul>
+  </div>
+</div>
+
                 {/* not responsive */}
 
 
@@ -243,11 +266,15 @@ const Printing = ({ invoiceData, bankData, termsData }) => {
                           <span className="text-black me-5">IGST</span>
                           <span className="float-end me-5">₹{invoiceData?.gst18}</span>
                         </li>
+                        <li>
+                        <span className="text-black me-5">Total</span>
+                          <span style={{color:"black"}} className="float-end me-5">₹{invoiceData?.totalAmount}</span>
+                        </li>
                       </ul>
-                      <p className="text-black mt-3 mt-md-0">
+                      {/* <p className="text-black mt-3 mt-md-0">
                         <span className="text-black me-3 fw-bold" style={{ fontWeight: 'bold' }}>Total</span>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style={{ fontSize: '25px' }}>₹{invoiceData?.totalAmount}</span>
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                 </div>

@@ -44,6 +44,10 @@ const Invoicetables = ({ invoices, render, setrender }) => {
     navigate(`/print/${item._id}`);
   };
 
+  const handleprintigstpage = async (item) => {
+    const response = await getselectedinvioce(item._id)
+    navigate(`/printigst/${item._id}`);
+  };
 
   const handledeletepage = async (item) => {
     const response = await deleteInvoice(item._id)
@@ -105,6 +109,11 @@ const Invoicetables = ({ invoices, render, setrender }) => {
         },
         {
           label: 'option',
+          field: 'detailss',
+          width: 100,
+        },
+        {
+          label: 'option',
           field: 'details',
           width: 100,
         },
@@ -133,6 +142,15 @@ const Invoicetables = ({ invoices, render, setrender }) => {
         DueDate:item.Duedate,
         paidamount:item.paidamount?item.paidamount:0,
         amountdue:item.Dueamount?item.Dueamount:0,
+        detailss: (
+          <button
+          onClick={() => handleprintigstpage(item)}
+            style={{ cursor: 'pointer' }}
+            className="btn btn-dark btn-sm"
+          >
+            print
+          </button>
+        ),
         details: (
           <button
             onClick={() => handleprintpage(item)}
