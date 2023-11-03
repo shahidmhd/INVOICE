@@ -3,7 +3,7 @@ const bearerToken=localStorage.getItem("token")??""
 const instance = axios.create({
     // baseURL: "http://localhost:7001",
     // baseURL:"https://cargo-management.onrender.com"
-    baseURL:" http://invoiceapi.cyenosure.in",
+    baseURL:" https://invoiceapi.cyenosure.in",
   });
 
   // Add an interceptor to the instance

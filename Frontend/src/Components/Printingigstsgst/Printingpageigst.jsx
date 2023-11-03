@@ -272,16 +272,16 @@ const Printingpageigst = ({ invoiceData, bankData, termsData }) => {
                                                     <span className="float-end me-5">₹{invoiceData?.subtotal}</span>
                                                 </li>
                                                 <li className="text-muted mt-2">
-                                                    <span className="text-black me-5">IGST 18%</span>
-                                                    <span className="float-end me-5">₹{invoiceData?.gst18}</span>
-                                                </li>
-                                                <li className="text-muted mt-2">
                                                     <span className="text-black me-5">SGST 9%</span>
                                                     <span className="float-end me-5">₹{invoiceData?.gst18 / 2}</span>
                                                 </li>
                                                 <li className="text-muted mt-2">
                                                     <span className="text-black me-5">CGST 9%</span>
                                                     <span className="float-end me-5">₹{invoiceData?.gst18 / 2}</span>
+                                                </li>
+                                                <li className="text-muted mt-2">
+                                                    <span className="text-black me-5">Total Tax</span>
+                                                    <span className="float-end me-5">₹{invoiceData?.gst18}</span>
                                                 </li>
                                                 <li>
                                                     <span className="text-black me-5">Total</span>
